@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{username}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class='profileDescription'>
+    <div>
+      profile Info
+    </div>
+    <div>
+      profile description
+    </div>
+    <div>
+      <ion-button fill="outline">
+        <ion-icon name="add-outline"></ion-icon>
+        <ion-label>Create a post</ion-label>
+      </ion-button>  
+    </div>
+
+   
+  
+
+  </div>
+  
+  <div class='profileContent'>
+    <ion-segment>
+      <ion-segment-button value="games">
+        <ion-label>Games</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="posts">
+        <ion-label>Posts</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="reviews">
+        <ion-label>Reviews</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-align-self-start">
+          <app-post></app-post>
+        </ion-col>
+        <ion-col class="ion-align-self-end">
+          <app-post></app-post>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+
+</ion-content>

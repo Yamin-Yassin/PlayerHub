@@ -1,0 +1,7 @@
+{
+  "name": "PlayerHub",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
