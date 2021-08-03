@@ -10,6 +10,7 @@ export class ProfilePage implements OnInit {
 
   selectedSegment:string;
   username:string;
+  coisos:string[] = ["a", "v", "c", "d"]
   constructor() { }
 
   ngOnInit() {

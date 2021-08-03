@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 import { PostComponent } from 'src/app/components/post/post.component';
+import { GamePlayerComponent } from 'src/app/components/game-player/game-player.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { PostComponent } from 'src/app/components/post/post.component';
     IonicModule,
     ProfilePageRoutingModule
   ],
-  declarations: [ProfilePage, PostComponent]
+  declarations: [ProfilePage, PostComponent, GamePlayerComponent]
 })
 export class ProfilePageModule {}

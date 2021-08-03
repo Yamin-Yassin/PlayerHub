@@ -36,18 +36,37 @@
 
     <div *ngIf="selectedSegment === 'games'">
 
-      <ion-grid >
-        <ion-row>
-          <ion-col class="ion-align-self-start">
-            <app-post></app-post>
-          </ion-col>
-          <ion-col class="ion-align-self-end">
-            <app-post></app-post>
+      <ion-grid>
+        <ion-row >
+          <ion-col  size='6' *ngFor='let coiso of coisos'>
+            <app-game-player></app-game-player>
           </ion-col>
         </ion-row>
       </ion-grid>
       
     </div>
+
+
+
+    <div *ngIf="selectedSegment === 'posts'">
+      
+     <!--  fazer um infinite scroll para os posts -->
+
+      <ion-infinite-scroll>
+        <app-post></app-post>
+      </ion-infinite-scroll>
+      
+    </div>
+
+    <div *ngIf="selectedSegment === 'reviews'">
+      
+      <!--  fazer um infinite scroll para os reviews -->
+ 
+       <ion-infinite-scroll>
+         <app-post></app-post>
+       </ion-infinite-scroll>
+       
+     </div>
   </div>
 
 
