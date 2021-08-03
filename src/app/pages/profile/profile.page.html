@@ -18,14 +18,10 @@
         <ion-label>Create a post</ion-label>
       </ion-button>  
     </div>
-
-   
-  
-
   </div>
   
   <div class='profileContent'>
-    <ion-segment>
+    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="games">
         <ion-label>Games</ion-label>
       </ion-segment-button>
@@ -37,17 +33,21 @@
       </ion-segment-button>
     </ion-segment>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col class="ion-align-self-start">
-          <app-post></app-post>
-        </ion-col>
-        <ion-col class="ion-align-self-end">
-          <app-post></app-post>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
+    <div *ngIf="selectedSegment === 'games'">
+
+      <ion-grid >
+        <ion-row>
+          <ion-col class="ion-align-self-start">
+            <app-post></app-post>
+          </ion-col>
+          <ion-col class="ion-align-self-end">
+            <app-post></app-post>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+    </div>
   </div>
 
 
