@@ -27,4 +27,8 @@ export class FireService {
     return this.af.collectionGroup('userDetails').snapshotChanges()
   }
 
+  getUser(){
+    
+  }
+
 }

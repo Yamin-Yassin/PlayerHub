@@ -10,7 +10,18 @@ export class ProfilePage implements OnInit {
 
   selectedSegment:string;
   username:string;
-  coisos:string[] = ["a", "v", "c", "d"]
+  coisos:string[] = ["a", "v", "c"]
+
+  user = {
+    username:'yaminyassin',
+    avatar: '../../../assets/img/sofia.png',
+    name: 'Yamin Yassin',
+    description:"i love games and playing with food",
+    nGames:10,
+    nAchievements:100,
+    nFriends:200,
+
+  }
   constructor() { }
 
   ngOnInit() {

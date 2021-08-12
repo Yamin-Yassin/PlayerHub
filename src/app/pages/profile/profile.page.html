@@ -6,22 +6,53 @@
 
 <ion-content>
   <div class='profileDescription'>
-    <div>
-      profile Info
-    </div>
-    <div>
-      profile description
-    </div>
-    <div>
-      <ion-button fill="outline">
-        <ion-icon name="add-outline"></ion-icon>
-        <ion-label>Create a post</ion-label>
-      </ion-button>  
-    </div>
-  </div>
+    <ion-row class="profile-header ion-align-items-center">
+      <!----------------------- Profile Photo -------------------->
+      <ion-col size="3">
+          <img src="{{user.avatar}}" class="avatar">
+      </ion-col>
+      <!----------------------- Profile Stats ------------------>
+      <ion-col size="9">
+        <ion-row>
+          <ion-col>
+            <div class="center-stats">
+              <div><strong>Games</strong></div>
+              <div>{{user.nGames}}</div>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="center-stats">
+              <div><strong>Achievements</strong></div>
+              <div>{{user.nAchievements}}</div>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="center-stats">
+              <div><strong>Friends</strong></div>
+              <div>{{user.nFriends}}</div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <!------------------ Profile Description ---------------->
+    <ion-row class="ion-padding">
+      <strong>{{user.name}}</strong>
+      <div class="description">
+        {{user.description}}
+      </div>
+    </ion-row>
+ 
+  </div> 
+  
+  
   
   <div class='profileContent'>
-    <ion-segment value="games" [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)">
+ 
+    <ion-segment  
+    [(ngModel)]="selectedSegment" 
+    (ionChange)="segmentChanged($event)"
+    >
       <ion-segment-button value="games">
         <ion-label>Games</ion-label>
       </ion-segment-button>
@@ -36,7 +67,7 @@
 
     <div *ngIf="selectedSegment === 'games'">
 
-      <ion-grid>
+      <ion-grid class="ion-no-padding">
         <ion-row >
           <ion-col  size='6' *ngFor='let coiso of coisos'>
             <app-game-player></app-game-player>

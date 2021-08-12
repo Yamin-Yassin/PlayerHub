@@ -17,22 +17,22 @@ export class FireauthService {
   
   doRegister(value: { email: string; password: string; }) {
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(value.email,
-        value.password)
-        .then(
-          res => resolve(res),
-          err => reject(err))
+      firebase.auth()
+      .createUserWithEmailAndPassword(value.email, value.password)
+      .then(
+        res => resolve(res),
+        err => reject(err))
     })
   }
 
 
   doLogin(value: { email: string; password: string; }) {
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(value.email,
-        value.password)
-        .then(
-          res => resolve(res),
-          err => reject(err))
+      firebase.auth()
+      .signInWithEmailAndPassword(value.email, value.password)
+      .then(
+        res => resolve(res),
+        err => reject(err))
     })
   }
 
@@ -40,13 +40,14 @@ export class FireauthService {
   doLogout() {
     return new Promise<void>((resolve, reject) => {
       this.afAuth.signOut()
-        .then(() => {
-          this.fireService.unsubscribeOnLogOut();
-          resolve();
-        }).catch((error) => {
-          console.log(error);
-          reject();
-        });
+      .then(() => {
+        this.fireService.unsubscribeOnLogOut();
+        resolve();
+      })
+      .catch((error) => {
+        console.log(error);
+        reject();
+      });
     })
   }
 }
