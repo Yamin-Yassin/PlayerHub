@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { userDetails } from '../tasks';
+import { userDetails } from '@AppTypes/tasks';
+
 
 
 @Injectable({

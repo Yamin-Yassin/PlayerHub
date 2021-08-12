@@ -21,7 +21,7 @@
   </div>
   
   <div class='profileContent'>
-    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)">
+    <ion-segment value="games" [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="games">
         <ion-label>Games</ion-label>
       </ion-segment-button>

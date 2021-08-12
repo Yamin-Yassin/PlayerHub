@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { FireService } from 'src/app/services/fire.service';
-import { userDetails } from 'src/app/tasks';
 import { Router } from '@angular/router';
+import { FireService } from '@fire/fire.service';
+import { DataService } from '@services/data.service';
+import { userDetails } from '@AppTypes/tasks';
 
 @Component({
   selector: 'app-username',

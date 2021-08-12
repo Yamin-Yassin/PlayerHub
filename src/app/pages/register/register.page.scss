@@ -1,14 +1,17 @@
-.error-message { 
-    color: var(--ion-color-danger); 
-} 
+.error-message {
+  color: var(--ion-color-danger);
+  text-align: center;
+  margin-top: 10px;
+  font-size: small;
+}
 
-.go-to-login { 
-    text-align: center; 
-    margin-top: 20px; 
-} 
-.submit-btn { 
-    margin-top: 40px; 
-} 
-a:hover { 
-    cursor: pointer; 
-} 
+.go-to-login {
+  text-align: center;
+  margin-top: 20px;
+}
+.submit-btn {
+  margin-top: 40px;
+}
+a:hover {
+  cursor: pointer;
+}

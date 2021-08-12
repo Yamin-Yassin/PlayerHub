@@ -15,7 +15,9 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     this.username="yaminyassin"
+    this.selectedSegment= "games"
   }
+  
 
   segmentChanged(ev: any) {
     console.log('Segment changed', ev);

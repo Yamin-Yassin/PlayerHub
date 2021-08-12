@@ -15,14 +15,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: '', 
-    redirectTo: 'tabs/profile',
-    pathMatch: 'full'
-  },
-  {
     path: 'username',
     loadChildren: () => import('./pages/username/username.module').then( m => m.UsernamePageModule)
-  }
+  },
+  {
+    path: '', 
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+ 
  
 ];
 

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { FireauthService } from 'src/app/services/fireauth.service';
 import { Router } from '@angular/router';
+import { userDetails } from '@AppTypes/tasks';
+import { FireauthService } from '@fire/fireauth.service';
 import { DataService } from 'src/app/services/data.service';
-import { userDetails } from 'src/app/tasks';
+
 
 @Component({
   selector: 'app-register',

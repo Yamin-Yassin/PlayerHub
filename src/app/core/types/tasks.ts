@@ -1,6 +1,6 @@
 
 
-export class userDetails {
+export type userDetails = {
     email: string; 
     username: string; 
 } 

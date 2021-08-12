@@ -1,15 +1,15 @@
-.error-message { 
-    color: var(--ion-color-danger); 
-} 
+.error-message {
+  color: var(--ion-color-danger);
+  text-align: center;
+  margin-top: 10px;
+  font-size: small;
+}
 
-.go-to-register { 
-    text-align: center; 
-    margin-top: 20px; 
-} 
+.center-text {
+  text-align: center;
+  margin-top: 10px;
+}
 
-.submit-btn { 
-    margin-top: 40px; 
-} 
-
-a:hover {  cursor: pointer; 
-} 
+.submit-btn {
+  margin-top: 40px;
+}

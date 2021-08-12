@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ForYouPageRoutingModule } from './for-you-routing.module';
+import { ExplorePageRoutingModule } from './explore-routing.module';
 
-import { ForYouPage } from './for-you.page';
+import { ExplorePage } from './explore.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ForYouPageRoutingModule
+    ExplorePageRoutingModule
   ],
-  declarations: [ForYouPage]
+  declarations: [ExplorePage]
 })
-export class ForYouPageModule {}
+export class ExplorePageModule {}
