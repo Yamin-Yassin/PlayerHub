@@ -1,0 +1,20 @@
+ion-slides {
+  height: 100%;
+}
+
+ion-input {
+  --background: var(--ion-color-light);
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border-radius: 16px;
+}
+
+ion-toolbar ion-avatar {
+  margin-right: 8px;
+}
+
+.game-images {
+  height: 65%;
+  align-items: center;
+  justify-content: center;
+}
