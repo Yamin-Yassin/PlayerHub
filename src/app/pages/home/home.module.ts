@@ -6,24 +6,16 @@ import { IonicModule } from '@ionic/angular';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
-
-
-import { ReviewGameComponent } from '../../components/review-game/review-game.component';
-import { ReviewPlayerComponent } from '../../components/review-player/review-player.component';
-
-
+import { ReviewGameComponentModule } from '@components/review-game/review-game.component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    ReviewGameComponentModule,
   ],
-  declarations: [
-    HomePage,
-    ReviewGameComponent, 
-    ReviewPlayerComponent
-    ]
+  declarations: [HomePage],
 })
 export class HomePageModule {}
