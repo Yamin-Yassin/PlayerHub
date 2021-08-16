@@ -16,23 +16,32 @@
   </div>
 
   <div class="ion-padding-horizontal">
-    <div>
-      <div>
-        <h1>{{game.name}}</h1>
-        <div>{{game.studio}}</div>
+    <div class="ion-padding-vertical">
+      <div class="game-container">
+        <div>
+          <div class="tittle">{{game.name}}</div>
+          <div class="studio">{{game.studio}}</div>
+        </div>
+
+        <div class="score-large">{{game.score}}</div>
       </div>
-      <div>{{game.score}}</div>
+      <hr />
     </div>
 
-    <div>
-      <h2>General Information</h2>
-      <p><strong>Release Date:</strong> {{game.releaseDate}}</p>
-      <p><strong>Available On:</strong> {{game.platforms}}</p>
-      <p><strong>Genre:</strong> {{game.genre}}</p>
+    <div class="ion-padding-vertical">
+      <div class="section">General Information</div>
+      <hr />
+      <p><span class="semi-bold">Release Date:</span> {{game.releaseDate}}</p>
+      <p><span class="semi-bold">Available On:</span> {{game.platforms}}</p>
+      <p><span class="semi-bold">Genre:</span> {{game.genre}}</p>
     </div>
 
-    <div>
-      <!-- reviews -->
+    <div class="ion-padding-vertical">
+      <div>
+        <div class="section">Reviews</div>
+        <hr />
+      </div>
+      <app-review-game></app-review-game>
     </div>
   </div>
 </ion-content>

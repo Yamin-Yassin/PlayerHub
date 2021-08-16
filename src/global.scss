@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,51 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@font-face {
+  font-family: "Spectral";
+  src: url("./assets/fonts/Spectral/Spectral-Regular.ttf");
+}
+@font-face {
+  font-family: "Spectral Italic";
+  font-style: italic;
+  src: url("./assets/fonts/Spectral/Spectral-LightItalic.ttf");
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto/Roboto-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Roboto semi bold";
+  src: url("./assets/fonts/Roboto/Roboto-Bold.ttf");
+}
+
+@mixin game-tittle {
+  font-family: "Spectral";
+  font-weight: 400;
+  font-size: xx-large;
+}
+
+@mixin game-studio {
+  font-family: "Spectral Italic";
+  font-weight: 500;
+}
+
+@mixin score-large {
+  font-family: "Spectral";
+  font-weight: 500;
+  font-size: xxx-large;
+}
+
+@mixin score-small {
+  @include score-large;
+  font-size: large;
+}
+
+@mixin section {
+  font-family: "Roboto";
+  font-weight: 500;
+  font-size: larger;
+}

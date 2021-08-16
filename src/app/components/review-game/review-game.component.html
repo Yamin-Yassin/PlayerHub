@@ -1,24 +1,24 @@
-
 <ion-card class="ion-toolbar">
+  <ion-card-header>
+    <ion-row class="review-header ion-align-items-center">
+      <ion-col size="2">
+        <ion-avatar>
+          <img src="{{ review.avatar }}" alt="" />
+        </ion-avatar>
+      </ion-col>
 
-  <ion-item class="ion-toolbar" lines="none">
-    <ion-avatar slot='start'>
-      <img src="../../../assets/img/sofia.png">
-    </ion-avatar>
-    <ion-label class="text"> 
-        <p>YaminYassin</p>
-    </ion-label>
- 
-    <ion-label class="text">
-      <div class="ion-text-end">
-        <h1>8.7</h1>
-      </div>
-    </ion-label>
-  </ion-item>
+      <ion-col size="6" class="username">
+        <strong>{{ review.username }}</strong>
+      </ion-col>
 
+      <ion-col size="4" class="score">
+        <strong>{{ review.score }}</strong>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
 
   <ion-card-content>
-    Odyssey looks like a straight successor to the Mario 64 and Sunshine line of sandbox 3D Marios, but it is much more than that. Naturally, it evokes, honors, and is sometimes directly inspired by the games  that came before it in its characters, music, and mechanics.
+    {{ review.description }}
   </ion-card-content>
 
   <ion-toolbar class="ion-toolbar">
@@ -34,5 +34,4 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
 </ion-card>
