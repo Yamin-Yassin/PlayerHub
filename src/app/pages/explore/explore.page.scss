@@ -1,0 +1,11 @@
+ion-input {
+  --background: var(--ion-color-light);
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border-radius: 16px;
+  width: 90%;
+}
+
+ion-toolbar ion-avatar {
+  margin-right: 8px;
+}

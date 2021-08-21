@@ -3,12 +3,20 @@ ion-card {
 }
 
 .review-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-avatar-name {
+  display: flex;
+  flex-direction: row;
   justify-content: space-around;
+}
+
+.username {
+  padding-left: 10px;
 }
 
 .score {
   text-align: end;
-}
-.username {
-  padding-left: 10px;
 }
