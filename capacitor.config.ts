@@ -1,14 +1,16 @@
-import {CapacitorConfig } from '@capacitor/cli'
+/// <reference types="@capacitor/push-notifications" />
 
-const config:CapacitorConfig = {
-    appId: "io.ionic.starter",
-    appName: "PlayerHub",
-    webDir: "www",
-    plugins: {
-        SpalshScreen:{
-            launchShowDuration:0,
-        }
-    }
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'io.ionic.starter',
+  appName: 'PlayerHub',
+  webDir: 'www',
+  plugins: {
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert'],
+    },
+  },
 };
 
 export default config;
