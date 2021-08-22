@@ -4,12 +4,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@fire/*":["src/app/core/services/*"],
+      "@fire/*": ["src/app/core/services/*"],
       "@pages/*": ["src/app/pages/*"],
-      "@components/*":["src/app/components/*"],
-      "@services/*":["src/app/services/*"],
-      "@assets/*":["src/assets/*"],
-      "@AppTypes/*":["src/app/core/types/*"]
+      "@components/*": ["src/app/components/*"],
+      "@services/*": ["src/app/services/*"],
+      "@assets/*": ["src/assets/*"],
+      "@AppTypes/*": ["src/app/core/types/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -26,6 +26,6 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
+    "strictTemplates": true
   }
 }

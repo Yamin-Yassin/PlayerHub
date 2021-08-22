@@ -9,7 +9,7 @@
     <ion-row class="profile-header ion-align-items-center">
       <!----------------------- Profile Photo -------------------->
       <ion-col size="3">
-          <img src="{{user.avatar}}" class="avatar">
+          <img src="{{user.avatar}}" alt="" class="avatar">
       </ion-col>
       <!----------------------- Profile Stats ------------------>
       <ion-col size="9">
@@ -38,10 +38,14 @@
     <!------------------ Profile Description ---------------->
     <ion-row class="ion-padding">
       <strong>{{user.name}}</strong>
+    </ion-row>
+    <ion-row class="ion-padding">
       <div class="description">
         {{user.description}}
       </div>
     </ion-row>
+      
+    
  
   </div> 
   

@@ -1,9 +1,63 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Game</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content fullscreen="true" forceOverscroll="true">
+  <!-- BACK BUTTON -->
+  <ion-fab vertical="top" horizontal="start">
+    <ion-fab-button size="small" (click)="goBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-<ion-content>
+  <div class="game-images">
+    <!-- images -->
+    <ion-slides>
+      <ion-slide *ngFor="let image of game.images">
+        <img src="{{image}}" alt="" />
+      </ion-slide>
+    </ion-slides>
+  </div>
 
+  <div class="ion-padding-horizontal">
+    <div class="ion-padding-vertical">
+      <div class="game-container">
+        <div>
+          <div class="tittle">{{game.name}}</div>
+          <div class="studio">{{game.studio}}</div>
+        </div>
+
+        <div class="score-large">{{game.score}}</div>
+      </div>
+      <hr />
+    </div>
+
+    <div class="ion-padding-vertical">
+      <div class="section">General Information</div>
+      <hr />
+      <p><span class="semi-bold">Release Date:</span> {{game.releaseDate}}</p>
+      <p><span class="semi-bold">Available On:</span> {{game.platforms}}</p>
+      <p><span class="semi-bold">Genre:</span> {{game.genre}}</p>
+    </div>
+
+    <div class="ion-padding-vertical">
+      <div>
+        <div class="section">Reviews</div>
+        <hr />
+      </div>
+      <app-review-game></app-review-game>
+    </div>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-avatar class="avatar-sm" slot="start">
+        <img src="../../../assets/img/sofia.png" alt="" />
+      </ion-avatar>
+    </ion-buttons>
+    <ion-input
+      placeholder="Write a review..."
+      readonly="true"
+      button
+      (click)="gotoReview()"
+    ></ion-input>
+  </ion-toolbar>
+</ion-footer>
