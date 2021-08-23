@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PhotoService } from '@services/photo.service';
 
 @Component({
   selector: 'app-explore',
@@ -6,10 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./explore.page.scss'],
 })
 export class ExplorePage implements OnInit {
+  constructor(public photoService: PhotoService) {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

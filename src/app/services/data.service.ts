@@ -2,25 +2,22 @@ import { Injectable } from '@angular/core';
 import { userDetails } from '@AppTypes/tasks';
 import { BehaviorSubject } from 'rxjs';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-
   private user: userDetails = {
-    email: '', 
-    username: ''
+    email: '',
+    username: '',
   };
 
   private messageSource = new BehaviorSubject(this.user);
-  
+
   currentMessage = this.messageSource.asObservable();
 
-  constructor() { }
+  constructor() {}
 
   changeMessage(msg: userDetails) {
-  
-    this.messageSource.next(msg)
+    this.messageSource.next(msg);
   }
 }

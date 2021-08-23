@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { PhotoService } from '@services/photo.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,7 @@ export class ProfilePage implements OnInit {
     nAchievements: 100,
     nFriends: 200,
   };
-  constructor() {}
+  constructor(public photoService: PhotoService) {}
 
   ngOnInit() {
     this.username = 'yaminyassin';
@@ -29,5 +30,9 @@ export class ProfilePage implements OnInit {
 
   segmentChanged(ev: any) {
     console.log('Segment changed', ev);
+  }
+
+  addPhotoToGallery() {
+    this.photoService.addnewToGallery();
   }
 }
