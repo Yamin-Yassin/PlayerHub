@@ -1,0 +1,14 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "PlayerHub",
+	"webDir": "www",
+	"plugins": {
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		}
+	}
+}
