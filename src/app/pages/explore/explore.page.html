@@ -4,22 +4,33 @@
       placeholder="Search for Game or Player..."
       readonly="true"
       button
-      class="ion-margin-horizontal"
     ></ion-input>
-    <ion-fab-button slot="end" size="small">
-      <ion-icon name="search-circle-outline"></ion-icon>
-    </ion-fab-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header> New Arrivals </ion-list-header>
+  <ion-list class="new-arrivals">
+    <ion-list-header> <h1>New Arrivals</h1> </ion-list-header>
 
     <ion-slides [options]="slideOpts">
       <ion-slide *ngFor="let card of [0,1,2,3]">
-        <app-game-player></app-game-player>
+        <div class="container">
+          <div class="container-image">
+            <img
+              src="{{'../../../assets/img/sofia.png'}}"
+              alt=""
+              class="image"
+            />
+          </div>
+          <div class="name">
+            <h5>Zelda: Breath of the Wild</h5>
+          </div>
+        </div>
       </ion-slide>
     </ion-slides>
+  </ion-list>
+  <ion-list>
+    <ion-list-header> <h1>Reviews</h1> </ion-list-header>
+    <app-review-explore *ngFor="let card of [0,1,2,3]"></app-review-explore>
   </ion-list>
 </ion-content>

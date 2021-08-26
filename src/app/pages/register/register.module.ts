@@ -8,15 +8,14 @@ import { RegisterPageRoutingModule } from './register-routing.module';
 
 import { RegisterPage } from './register.page';
 
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     RegisterPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [RegisterPage]
+  declarations: [RegisterPage],
 })
 export class RegisterPageModule {}

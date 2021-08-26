@@ -1,0 +1,37 @@
+ion-card-content {
+  padding: 0 !important;
+}
+
+ion-card {
+  margin-bottom: 20px;
+}
+.review-header {
+  display: flex;
+
+  justify-content: center;
+}
+
+.cover {
+  border-radius: 20px;
+}
+
+.description {
+  display: block;
+  text-align: left;
+}
+
+.cover-score {
+  position: relative;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.score {
+  font-size: xx-large;
+  font-weight: 500;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: whitesmoke;
+}

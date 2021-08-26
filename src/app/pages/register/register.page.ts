@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { userDetails } from '@AppTypes/tasks';
 import { FireauthService } from '@fire/fireauth.service';
 import { DataService } from 'src/app/services/data.service';
-
 
 @Component({
   selector: 'app-register',
@@ -12,80 +16,78 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
   validations_form: FormGroup;
   errorMessage: string = '';
-  
 
   validation_messages = {
-    'email': [
+    email: [
       { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'pattern', message: 'Enter a valid email.' },
     ],
-    'password': [
+    password: [
       { type: 'required', message: 'Password is required.' },
-      { type: 'minlength', message: 'Password must be at least 5 characters long.' } 
-    ]
+      {
+        type: 'minlength',
+        message: 'Password must be at least 5 characters long.',
+      },
+    ],
   };
 
   constructor(
     private dataService: DataService,
     private authService: FireauthService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$') 
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required
-      ])),
+      email: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        ])
+      ),
+      password: new FormControl(
+        '',
+        Validators.compose([Validators.minLength(5), Validators.required])
+      ),
     });
   }
 
-  tryRegister(value: { email: string; password: string; } ) {
-    this.authService.doRegister(value)
-      .then(res => {
-        
-        console.log("Register sucessfull");
-        this.errorMessage = "";
+  tryRegister(value: { email: string; password: string }) {
+    this.authService.doRegister(value).then(
+      (res) => {
+        console.log('Register sucessfull');
+        this.errorMessage = '';
 
-
-        this.authService.doLogin(value).then(res =>{
-            console.log("login successful")
-        }, err => {
-
-          console.log("login error")
-          this.errorMessage = err.message;
-        })
-
+        this.authService.doLogin(value).then(
+          (res) => {
+            console.log('login successful');
+          },
+          (err) => {
+            console.log('login error');
+            this.errorMessage = err.message;
+          }
+        );
 
         let user: userDetails = {
-          email: value.email, 
-          username: ''
+          email: value.email,
+          username: '',
         };
 
-        this.dataService.changeMessage(user)
-        this.router.navigate(["/username"])
-
-      }, err => {
-
+        this.dataService.changeMessage(user);
+        this.router.navigate(['/username']);
+      },
+      (err) => {
         console.log(err);
         this.errorMessage = err.message;
-       
-      })
+      }
+    );
   }
-  
-
-
 
   goLoginPage() {
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 }

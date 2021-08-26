@@ -3,9 +3,35 @@ ion-input {
   --padding-start: 12px;
   --padding-end: 12px;
   border-radius: 16px;
-  width: 90%;
+}
+ion-toolbar {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-ion-toolbar ion-avatar {
-  margin-right: 8px;
+ion-slide {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.new-arrivals {
+  background-color: #d8e7f1;
+}
+
+.container {
+  background-color: #ecf0f3;
+  border-radius: 20px;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+}
+
+.container-image {
+  height: 60%;
+}
+
+.image {
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+}
+.name {
+  height: 40%;
 }

@@ -10,7 +10,7 @@ export class ExplorePage implements OnInit {
   slideOpts = {
     slidesPerView: 2,
     grabCursor: true,
-
+    spaceBetween: 3,
     coverflowEffect: {
       rotate: 50,
       stretch: 0,
