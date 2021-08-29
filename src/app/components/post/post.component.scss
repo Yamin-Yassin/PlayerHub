@@ -1,14 +1,12 @@
-
-#description{
-    
-    font-size: small;
+ion-card-content {
+  padding-bottom: 0;
+  margin-top: 10px;
+}
+.post {
+  min-width: 250px;
+  max-width: 450px;
 }
 
-.post{
-    min-width: 250px;
-    max-width: 450px;
-}   
-
-ion-card-content{
-    padding-top: 0px;
+ion-card-content {
+  padding-top: 0px;
 }

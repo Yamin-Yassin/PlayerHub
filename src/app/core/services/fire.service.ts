@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { userDetails } from '@AppTypes/tasks';
+import { UserDetails } from '@AppTypes/appTypes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FireService {
-  private snapshotChangesSubscription: any;
-
   constructor(private af: AngularFirestore) {}
 
-  unsubscribeOnLogOut() {
-    //remember to unsubscribe from the snapshotChanges
-    this.snapshotChangesSubscription.unsubscribe();
+  subscribeLogin(data: any) {
+    console.log(data);
   }
 
-  createUsername(details: userDetails) {
+  unsubscribeLogOut() {
+    localStorage.removeItem('user');
+  }
+
+  createUsername(details: UserDetails) {
     return this.af.collection('userDetails').add(details);
   }
 

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PostReview } from '@AppTypes/appTypes';
 
 @Component({
   selector: 'app-post',
@@ -6,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
+  @Input() data: PostReview;
+  constructor(private router: Router) {}
 
-  score:number = 1000;
+  ngOnInit() {
+    console.log('Post component', this.data);
+  }
 
-  constructor() { }
-
-  ngOnInit() {}
-
+  goToProfile() {
+    localStorage.getItem('user');
+  }
 }

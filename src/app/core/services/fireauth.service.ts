@@ -30,10 +30,13 @@ export class FireauthService {
       firebase
         .auth()
         .signInWithEmailAndPassword(value.email, value.password)
-        .then(
-          (res) => resolve(res),
-          (err) => reject(err)
-        );
+        .then((res) => {
+          resolve(res);
+          this.fireService.subscribeLogin(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -42,12 +45,12 @@ export class FireauthService {
       this.afAuth
         .signOut()
         .then(() => {
-          this.fireService.unsubscribeOnLogOut();
+          this.fireService.unsubscribeLogOut();
           resolve();
         })
         .catch((error) => {
           console.log(error);
-          reject();
+          reject(error);
         });
     });
   }

@@ -1,19 +1,26 @@
 <ion-card class="post">
-
-<!-- PROFILE INFO -->
-  <ion-item>
-    <ion-avatar slot='start'>
-      <img src="../../../assets/img/sofia.png">
+  <!-- PROFILE INFO -->
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="{{ data.avatar }}" alt="" />
     </ion-avatar>
     <ion-label>
       <p>YaminYassin</p>
     </ion-label>
+    <ion-text slot="end" *ngIf="data.score != null">
+      <ion-label>10</ion-label>
+    </ion-text>
   </ion-item>
 
   <!-- IMAGE  -->
-  <img src="../../../assets/img/sofia.png">
+  <img src="{{ data.photo }}" alt="" *ngIf="data.photo != null" />
 
   <!-- INTERACTIONS -->
+
+  <!-- DESCRIPTION -->
+  <ion-card-content>
+    {{ data.description }}
+  </ion-card-content>
   <ion-toolbar>
     <ion-buttons slot="end">
       <ion-button>
@@ -24,18 +31,10 @@
       <ion-button>
         <ion-icon name="arrow-up-circle-outline"></ion-icon>
       </ion-button>
-      <ion-label>{{score}}</ion-label>
+      <ion-label>{{ data.score }}</ion-label>
       <ion-button>
         <ion-icon name="arrow-down-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
-  <!-- DESCRIPTION -->
-  <ion-card-content>
-    <ion-card-subtitle id='description'>
-      Wathever this is a description niggassss aisudjoiasdoajsod jaoisdjaos jdo
-    </ion-card-subtitle>
-
-  </ion-card-content>
 </ion-card>

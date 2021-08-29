@@ -8,7 +8,7 @@
 
 .avatar {
   border-radius: 50%;
-  max-width: 80px;
+  max-width: 70px;
 }
 
 .description {
@@ -17,4 +17,11 @@
 
 .center-stats {
   text-align: center;
+}
+
+.segment {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999;
+  background-color: white;
 }

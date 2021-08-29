@@ -11,7 +11,7 @@
 
 <ion-content>
   <div class="profileDescription">
-    <ion-row class="profile-header ion-align-items-center">
+    <ion-row class="ion-padding-horizontal ion-align-items-center">
       <!----------------------- Profile Photo -------------------->
       <ion-col size="3">
         <img src="{{user.avatar}}" alt="" class="avatar" />
@@ -41,27 +41,33 @@
       </ion-col>
     </ion-row>
     <!------------------ Profile Description ---------------->
-    <ion-row class="ion-padding">
+    <ion-row class="ion-padding-horizontal">
       <strong>{{user.name}}</strong>
     </ion-row>
-    <ion-row class="ion-padding">
+    <ion-row class="ion-margin">
       <div class="description">{{user.description}}</div>
     </ion-row>
   </div>
 
   <div class="profileContent">
     <ion-segment
+      class="segment"
       [(ngModel)]="selectedSegment"
       (ionChange)="segmentChanged($event)"
     >
       <ion-segment-button value="games">
-        <ion-label>Games</ion-label>
+        <!-- <ion-label>Games</ion-label> -->
+        <ion-icon name="game-controller-outline"></ion-icon>
       </ion-segment-button>
+
       <ion-segment-button value="posts">
-        <ion-label>Posts</ion-label>
+        <!--  <ion-label>Posts</ion-label> -->
+        <ion-icon name="image-outline"></ion-icon>
       </ion-segment-button>
+
       <ion-segment-button value="reviews">
-        <ion-label>Reviews</ion-label>
+        <!-- <ion-label>Reviews</ion-label> -->
+        <ion-icon name="book-outline"></ion-icon>
       </ion-segment-button>
     </ion-segment>
 
@@ -79,15 +85,14 @@
       <!--  fazer um infinite scroll para os posts -->
 
       <ion-infinite-scroll>
-        <app-post></app-post>
+        <app-post [data]="post"></app-post>
       </ion-infinite-scroll>
     </div>
 
     <div *ngIf="selectedSegment === 'reviews'">
       <!--  fazer um infinite scroll para os reviews -->
-
       <ion-infinite-scroll>
-        <app-review-game></app-review-game>
+        <app-post [data]="review"></app-post>
       </ion-infinite-scroll>
     </div>
   </div>
