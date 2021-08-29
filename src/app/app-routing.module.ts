@@ -39,7 +39,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'comment/:reviewID',
+    path: 'comment/:ID',
     loadChildren: () =>
       import('@pages/comment/comment.module').then((m) => m.CommentPageModule),
   },

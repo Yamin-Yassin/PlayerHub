@@ -5,10 +5,9 @@
 </ion-header>
 
 <ion-content>
- <!--
+  <!--
 
 <app-card-transition></app-card-transition>
  -->
- <app-review-game></app-review-game>
- <app-review-player></app-review-player>
+  <app-review-game *ngFor="let rev of content" [review]="rev"></app-review-game>
 </ion-content>

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { userDetails } from '@AppTypes/tasks';
+import { UserDetails } from '@AppTypes/appTypes';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  private user: userDetails = {
+  private user: UserDetails = {
     email: '',
     username: '',
   };
@@ -17,7 +17,7 @@ export class DataService {
 
   constructor() {}
 
-  changeMessage(msg: userDetails) {
+  changeMessage(msg: UserDetails) {
     this.messageSource.next(msg);
   }
 }

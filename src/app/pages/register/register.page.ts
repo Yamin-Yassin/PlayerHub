@@ -6,7 +6,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { userDetails } from '@AppTypes/tasks';
+import { UserDetails } from '@AppTypes/appTypes';
 import { FireauthService } from '@fire/fireauth.service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -72,7 +72,7 @@ export class RegisterPage implements OnInit {
           }
         );
 
-        let user: userDetails = {
+        const user: UserDetails = {
           email: value.email,
           username: '',
         };

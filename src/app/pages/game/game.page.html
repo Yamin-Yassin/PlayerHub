@@ -41,7 +41,13 @@
         <div class="section">Reviews</div>
         <hr />
       </div>
-      <app-review-game></app-review-game>
+      <div *ngFor="let rev of game.reviews">
+        <app-review-game [review]="rev"></app-review-game>
+      </div>
+
+      <ion-infinite-scroll>
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </div>
   </div>
 </ion-content>
