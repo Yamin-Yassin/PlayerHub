@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
-import { ReviewGameComponentModule } from '@components/review-game/review-game.component.module';
+import { PostComponentModule } from '@components/post/post.component.module';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { ReviewGameComponentModule } from '@components/review-game/review-game.c
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    ReviewGameComponentModule,
+    PostComponentModule,
   ],
   declarations: [HomePage],
 })

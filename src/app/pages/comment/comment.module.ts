@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommentPageRoutingModule } from './comment-routing.module';
 
 import { CommentPage } from './comment.page';
-import { ReviewGameComponentModule } from '@components/review-game/review-game.component.module';
+import { PostComponentModule } from '@components/post/post.component.module';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { ReviewGameComponentModule } from '@components/review-game/review-game.c
     IonicModule,
     CommentPageRoutingModule,
     ReactiveFormsModule,
-    ReviewGameComponentModule,
+    PostComponentModule,
   ],
   declarations: [CommentPage],
 })

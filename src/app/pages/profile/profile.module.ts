@@ -7,11 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
-import { PostComponent } from 'src/app/components/post/post.component';
 import { GamePlayerComponent } from 'src/app/components/game-player/game-player.component';
+import { PostComponentModule } from '@components/post/post.component.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ProfilePageRoutingModule],
-  declarations: [ProfilePage, PostComponent, GamePlayerComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ProfilePageRoutingModule,
+    PostComponentModule,
+  ],
+  declarations: [ProfilePage, GamePlayerComponent],
 })
 export class ProfilePageModule {}

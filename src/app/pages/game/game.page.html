@@ -42,7 +42,7 @@
         <hr />
       </div>
       <div *ngFor="let rev of game.reviews">
-        <app-review-game [review]="rev"></app-review-game>
+        <app-post [data]="rev"></app-post>
       </div>
 
       <ion-infinite-scroll>
