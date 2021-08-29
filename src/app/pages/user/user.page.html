@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{username}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-fab-button size="small" (click)="addPhotoToGallery()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="profileDescription">
+    <ion-row class="ion-padding-horizontal ion-align-items-center">
+      <!----------------------- Profile Photo -------------------->
+      <ion-col size="3">
+        <img src="{{user.avatar}}" alt="" class="avatar" />
+      </ion-col>
+      <!----------------------- Profile Stats ------------------>
+      <ion-col size="9">
+        <ion-row>
+          <ion-col>
+            <div class="center-stats">
+              <div><strong>Games</strong></div>
+              <div>{{user.nGames}}</div>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="center-stats">
+              <div><strong>Achievements</strong></div>
+              <div>{{user.nAchievements}}</div>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="center-stats">
+              <div><strong>Friends</strong></div>
+              <div>{{user.nFriends}}</div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <!------------------ Profile Description ---------------->
+    <ion-row class="ion-padding-horizontal">
+      <strong>{{user.name}}</strong>
+    </ion-row>
+    <ion-row class="ion-margin">
+      <div class="description">{{user.description}}</div>
+    </ion-row>
+  </div>
+
+  <div class="profileContent">
+    <ion-segment
+      class="segment"
+      [(ngModel)]="selectedSegment"
+      (ionChange)="segmentChanged($event)"
+    >
+      <ion-segment-button value="games">
+        <!-- <ion-label>Games</ion-label> -->
+        <ion-icon name="game-controller-outline"></ion-icon>
+      </ion-segment-button>
+
+      <ion-segment-button value="posts">
+        <!--  <ion-label>Posts</ion-label> -->
+        <ion-icon name="image-outline"></ion-icon>
+      </ion-segment-button>
+
+      <ion-segment-button value="reviews">
+        <!-- <ion-label>Reviews</ion-label> -->
+        <ion-icon name="book-outline"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div *ngIf="selectedSegment === 'games'">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="6" *ngFor="let coiso of coisos">
+            <app-game-player></app-game-player>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="selectedSegment === 'posts'">
+      <!--  fazer um infinite scroll para os posts -->
+
+      <ion-infinite-scroll>
+        <app-post [data]="post"></app-post>
+      </ion-infinite-scroll>
+    </div>
+
+    <div *ngIf="selectedSegment === 'reviews'">
+      <!--  fazer um infinite scroll para os reviews -->
+      <ion-infinite-scroll>
+        <app-post [data]="review"></app-post>
+      </ion-infinite-scroll>
+    </div>
+  </div>
+</ion-content>

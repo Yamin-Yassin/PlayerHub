@@ -1,0 +1,27 @@
+.profileDescription {
+  height: 35%;
+}
+
+.profileContent {
+  height: 65%;
+}
+
+.avatar {
+  border-radius: 50%;
+  max-width: 70px;
+}
+
+.description {
+  opacity: 0.9;
+}
+
+.center-stats {
+  text-align: center;
+}
+
+.segment {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999;
+  background-color: white;
+}

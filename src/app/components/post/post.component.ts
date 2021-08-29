@@ -11,11 +11,9 @@ export class PostComponent implements OnInit {
   @Input() data: PostReview;
   constructor(private router: Router) {}
 
-  ngOnInit() {
-    console.log('Post component', this.data);
-  }
+  ngOnInit() {}
 
-  goToProfile() {
-    localStorage.getItem('user');
+  navigateProfile() {
+    this.router.navigate(['/profile/coco']);
   }
 }
