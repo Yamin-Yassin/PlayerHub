@@ -1,10 +1,18 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigateBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
     <ion-title>{{username}}</ion-title>
+
     <ion-buttons slot="end">
-      <ion-fab-button size="small" (click)="addPhotoToGallery()">
-        <ion-icon name="camera-outline"></ion-icon>
-      </ion-fab-button>
+      <ion-button (click)="navigateBack()">
+        <ion-icon name="person-add-outline"></ion-icon>
+        <ion-icon name="person-remove-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -56,17 +64,14 @@
       (ionChange)="segmentChanged($event)"
     >
       <ion-segment-button value="games">
-        <!-- <ion-label>Games</ion-label> -->
         <ion-icon name="game-controller-outline"></ion-icon>
       </ion-segment-button>
 
       <ion-segment-button value="posts">
-        <!--  <ion-label>Posts</ion-label> -->
         <ion-icon name="image-outline"></ion-icon>
       </ion-segment-button>
 
       <ion-segment-button value="reviews">
-        <!-- <ion-label>Reviews</ion-label> -->
         <ion-icon name="book-outline"></ion-icon>
       </ion-segment-button>
     </ion-segment>

@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { UserPageRoutingModule } from './user-routing.module';
 
 import { UserPage } from './user.page';
+import { PostComponentModule } from '@components/post/post.component.module';
+import { GamePlayerComponentModule } from '@components/game-player/game-player.component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    UserPageRoutingModule
+    UserPageRoutingModule,
+    PostComponentModule,
+    GamePlayerComponentModule,
   ],
-  declarations: [UserPage]
+  declarations: [UserPage],
 })
 export class UserPageModule {}

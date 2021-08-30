@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
-import { GamePlayerComponent } from 'src/app/components/game-player/game-player.component';
 import { PostComponentModule } from '@components/post/post.component.module';
+import { GamePlayerComponentModule } from '@components/game-player/game-player.component.module';
 
 @NgModule({
   imports: [
@@ -17,7 +17,8 @@ import { PostComponentModule } from '@components/post/post.component.module';
     IonicModule,
     ProfilePageRoutingModule,
     PostComponentModule,
+    GamePlayerComponentModule,
   ],
-  declarations: [ProfilePage, GamePlayerComponent],
+  declarations: [ProfilePage],
 })
 export class ProfilePageModule {}

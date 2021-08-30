@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { PostReview } from '@AppTypes/appTypes';
 import { PhotoService } from '@services/photo.service';
@@ -40,7 +41,7 @@ export class UserPage implements OnInit {
     photo: null,
     score: 8,
   };
-  constructor(public photoService: PhotoService) {}
+  constructor(public photoService: PhotoService, private loc: Location) {}
 
   ngOnInit() {
     this.username = 'yaminyassin';
@@ -53,5 +54,8 @@ export class UserPage implements OnInit {
 
   addPhotoToGallery() {
     this.photoService.addnewToGallery();
+  }
+  navigateBack() {
+    this.loc.back();
   }
 }

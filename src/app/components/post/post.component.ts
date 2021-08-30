@@ -16,4 +16,7 @@ export class PostComponent implements OnInit {
   navigateProfile() {
     this.router.navigate(['/profile/coco']);
   }
+  navigateComment() {
+    this.router.navigate(['/comment/coco'], { state: { data: this.data } });
+  }
 }
