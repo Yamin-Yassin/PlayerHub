@@ -54,16 +54,24 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-avatar class="avatar-sm" slot="start">
-        <img src="../../../assets/img/sofia.png" alt="" />
-      </ion-avatar>
-    </ion-buttons>
-    <ion-input
-      placeholder="Write a review..."
-      readonly="true"
-      button
-      (click)="gotoReview()"
-    ></ion-input>
+    <ion-avatar slot="start">
+      <img src="../../../assets/img/sofia.png" alt="" />
+    </ion-avatar>
+
+    <ion-textarea
+      rows="1"
+      autoGrow="true"
+      inputmode="text"
+      minlength="1"
+      wrap="soft"
+      maxlength="140"
+      placeholder="Add a comment..."
+    >
+    </ion-textarea>
+    <ion-text color="primary" slot="end" class="ion-padding-horizontal">
+      <ion-label>
+        <span>Post</span>
+      </ion-label>
+    </ion-text>
   </ion-toolbar>
 </ion-footer>

@@ -9,16 +9,29 @@
 
 <ion-content>
   <app-post [data]="originalData"></app-post>
+  <app-reply *ngFor="let reply of comments" [data]="reply"></app-reply>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-avatar slot="start">
-        <img src="../../../assets/img/sofia.png" alt="" />
-      </ion-avatar>
-    </ion-buttons>
+    <ion-avatar slot="start">
+      <img src="../../../assets/img/sofia.png" alt="" />
+    </ion-avatar>
 
-    <ion-input placeholder="Add a comment..."></ion-input>
+    <ion-textarea
+      rows="1"
+      autoGrow="true"
+      inputmode="text"
+      minlength="1"
+      wrap="soft"
+      maxlength="140"
+      placeholder="Add a comment..."
+    >
+    </ion-textarea>
+    <ion-text color="primary" slot="end" class="ion-padding-horizontal">
+      <ion-label>
+        <span>Post</span>
+      </ion-label>
+    </ion-text>
   </ion-toolbar>
 </ion-footer>

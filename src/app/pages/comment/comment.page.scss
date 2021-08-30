@@ -1,10 +1,12 @@
-ion-toolbar ion-avatar {
-  margin-right: 8px;
-}
-
-ion-input {
+ion-textarea {
   --background: var(--ion-color-light);
   --padding-start: 12px;
   --padding-end: 12px;
-  border-radius: 20px;
+
+  border-radius: 16px;
+}
+
+ion-toolbar ion-avatar {
+  margin-right: 8px;
+  padding: 5px;
 }

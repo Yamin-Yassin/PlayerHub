@@ -1,0 +1,18 @@
+<ion-item lines="full">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="auto">
+      <ion-avatar>
+        <img src="{{ data.avatar }}" alt="" />
+      </ion-avatar>
+    </ion-col>
+    <ion-col>
+      <div>
+        <span class="username">{{ data.username }}</span>
+        {{ data.description }}
+      </div>
+      <div class="date">
+        <span>{{ data.datetime }}</span>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-item>

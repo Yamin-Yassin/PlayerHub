@@ -10,6 +10,17 @@ export interface PostReview {
   description: string | null;
   score: number | null;
   photo: string | null;
+  datetime: string | null;
+  date: string;
+}
+
+export interface Reply {
+  username: string;
+  uid?: string;
+  avatar: string;
+  description: string;
+  datetime: string | null;
+  date: string;
 }
 
 export interface Game {

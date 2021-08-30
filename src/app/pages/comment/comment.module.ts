@@ -8,6 +8,7 @@ import { CommentPageRoutingModule } from './comment-routing.module';
 
 import { CommentPage } from './comment.page';
 import { PostComponentModule } from '@components/post/post.component.module';
+import { ReplyComponent } from '@components/reply/reply.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { PostComponentModule } from '@components/post/post.component.module';
     ReactiveFormsModule,
     PostComponentModule,
   ],
-  declarations: [CommentPage],
+  declarations: [CommentPage, ReplyComponent],
 })
 export class CommentPageModule {}

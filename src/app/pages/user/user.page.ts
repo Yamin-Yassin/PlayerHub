@@ -29,6 +29,8 @@ export class UserPage implements OnInit {
     description: 'first post hehe',
     photo: '../../../assets/img/sofia.png',
     score: null,
+    datetime: '10 jul',
+    date: Date.now().toString(),
   };
 
   review: PostReview = {
@@ -40,6 +42,8 @@ export class UserPage implements OnInit {
         by the games that came before it in its characters, music, and mechanics. ',
     photo: null,
     score: 8,
+    datetime: '10 jul',
+    date: Date.now().toString(),
   };
   constructor(public photoService: PhotoService, private loc: Location) {}
 
