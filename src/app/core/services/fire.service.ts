@@ -24,5 +24,15 @@ export class FireService {
     return this.af.collectionGroup('userDetails').snapshotChanges();
   }
 
+  getProfileData() {}
+
+  getReviews() {}
+
+  getGamePage(gameID: string) {
+    return this.af
+      .collection('Games', (ref) => ref.where('id-game', '==', gameID))
+      .snapshotChanges();
+  }
+
   getUser() {}
 }

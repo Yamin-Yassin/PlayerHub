@@ -26,6 +26,7 @@ export interface Reply {
 export interface Game {
   images: string[] | null;
   name: string;
+  gameID;
   studio: string;
   score: number | null;
   releaseDate: string | null;

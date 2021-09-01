@@ -36,7 +36,7 @@
       <p><span class="semi-bold">Genre:</span> {{game.genre}}</p>
     </div>
 
-    <div class="ion-padding-vertical">
+    <div class="ion-padding-vertical" *ngIf="game.reviews.length != 0">
       <div>
         <div class="section">Reviews</div>
         <hr />
