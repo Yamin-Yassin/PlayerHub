@@ -13,6 +13,7 @@ import { Game } from '@AppTypes/appTypes';
 export class GamePage implements OnInit {
   id: string;
   public game: Game;
+  public isLoaded = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,6 +29,9 @@ export class GamePage implements OnInit {
       data.forEach((e) => {
         console.log('GetGamePage() raw ----> ', e.payload.doc.data());
 
+        const ts = e.payload.doc.data()['release-date'].toDate();
+        const date = `${ts.getDate()}/${ts.getMonth()}/${ts.getFullYear()};`;
+
         this.game = {
           images: [
             '../../../assets/img/sofia.png',
@@ -39,7 +43,7 @@ export class GamePage implements OnInit {
           name: e.payload.doc.data()['name'],
           studio: e.payload.doc.data()['studio'],
           score: 8.3,
-          releaseDate: e.payload.doc.data()['release-date'],
+          releaseDate: date,
           platforms: e.payload.doc.data()['platforms'],
           genre: e.payload.doc.data()['genre'],
           reviews: [
@@ -56,6 +60,7 @@ export class GamePage implements OnInit {
             },
           ],
         };
+        this.isLoaded = true;
         console.log('game object ', this.game);
       });
     });

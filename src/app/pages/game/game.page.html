@@ -1,4 +1,4 @@
-<ion-content fullscreen="true" forceOverscroll="true">
+<ion-content *ngIf="isLoaded">
   <!-- BACK BUTTON -->
   <ion-fab vertical="top" horizontal="start">
     <ion-fab-button size="small" (click)="goBack()">
