@@ -1,4 +1,4 @@
-<ion-card class="post" button (click)="navigateComment()">
+<ion-card class="post">
   <!-- PROFILE INFO -->
   <ion-item lines="none" button (click)="navigateProfile()">
     <ion-avatar slot="start">
@@ -8,7 +8,7 @@
       <p>YaminYassin</p>
     </ion-label>
     <ion-text slot="end" *ngIf="data.score != null">
-      <ion-label>10</ion-label>
+      <ion-label>{{ data.score }}</ion-label>
     </ion-text>
   </ion-item>
 
@@ -16,7 +16,7 @@
   <img src="{{ data.photo }}" alt="" *ngIf="data.photo != null" />
 
   <!-- DESCRIPTION -->
-  <ion-card-content>
+  <ion-card-content button (click)="navigateComment()">
     {{ data.description }}
   </ion-card-content>
 
@@ -29,7 +29,7 @@
         <ion-icon name="chatbubble-outline"></ion-icon>
       </ion-button>
       <ion-button>
-        <ion-label>likes here</ion-label>
+        <ion-label>{{ data.likes.length }}</ion-label>
         <ion-icon name="heart-outline"></ion-icon>
       </ion-button>
     </ion-buttons>

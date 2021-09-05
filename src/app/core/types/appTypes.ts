@@ -3,16 +3,30 @@ export type UserDetails = {
   username: string;
 };
 
-export interface PostReview {
-  username: string;
-  uid?: string;
+export interface Post {
   avatar: string;
-  description: string | null;
-  score: number | null;
-  photo: string | null;
-  datetime: string | null;
   date: string;
+  description: string | null;
+  likes: string[];
+  photo: string;
+  'post-id': string;
+  uid: string;
+  username: string;
 }
+
+export interface Review {
+  avatar: string;
+  date: string;
+  description: string;
+  likes: string[];
+  score: number;
+  'game-id': string;
+  'review-id': string;
+  uid: string;
+  username: string;
+}
+
+export type PostReview = Post | Review;
 
 export interface Reply {
   username: string;
@@ -24,13 +38,26 @@ export interface Reply {
 }
 
 export interface Game {
-  images: string[] | null;
-  name: string;
-  gameID;
-  studio: string;
-  score: number | null;
-  releaseDate: string | null;
-  platforms: string[] | null;
   genre: string[];
-  reviews: PostReview[] | null;
+  'id-game': string;
+  images: any;
+  name: string;
+  platforms: string[] | null;
+  'release-date': string | null;
+  studio: string;
+  score?: number | null;
+  reviews?: PostReview[] | null;
+}
+
+export interface Profile {
+  username: string;
+  name: string;
+  description: string;
+  avatar: string;
+  uid: string;
+  games: string[];
+  posts: string[];
+  reviews: string[];
+  friends: string[];
+  achievements: number;
 }

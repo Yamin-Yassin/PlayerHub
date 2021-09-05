@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
+import { StorageService } from '@fire/storage.service';
 import { FireService } from '@fire/fire.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -19,49 +20,46 @@ export class GamePage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private fire: FireService
+    private fire: FireService,
+    private storage: StorageService
   ) {}
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
 
-    this.fire.getGamePage('IPZbmWySXRFFsdpTNAls').subscribe((data) => {
+    this.fire.getGamePage(this.id).subscribe((data) => {
       data.forEach((e) => {
-        console.log('GetGamePage() raw ----> ', e.payload.doc.data());
-
         const ts = e.payload.doc.data()['release-date'].toDate();
         const date = `${ts.getDate()}/${ts.getMonth()}/${ts.getFullYear()};`;
 
         this.game = {
-          images: [
-            '../../../assets/img/sofia.png',
-            '../../../assets/img/sofia.png',
-            '../../../assets/img/sofia.png',
-            '../../../assets/img/sofia.png',
-          ],
-          gameID: e.payload.doc.id,
+          images: e.payload.doc.data()['images'],
+          'id-game': e.payload.doc.id,
           name: e.payload.doc.data()['name'],
           studio: e.payload.doc.data()['studio'],
           score: 8.3,
-          releaseDate: date,
+          'release-date': date,
           platforms: e.payload.doc.data()['platforms'],
           genre: e.payload.doc.data()['genre'],
           reviews: [
             {
-              username: 'yaminyassin',
               avatar: '../../../assets/img/sofia.png',
-              score: 8.7,
-              description: ` Odyssey looks like a straight successor to the Mario 64 and Sunshine line of
-            sandbox 3D Marios, but it is much more than that.Naturally, it evokes, honors, and is sometimes
-             directly inspired by the games that came before it in its characters, music, and mechanics. `,
-              photo: null,
-              datetime: 'asdpska',
-              date: Date.now().toString(),
+              date: '10 jul',
+              description:
+                'Odyssey looks like a straight successor to the Mario 64 and Sunshine line of sandbox 3D Marios,\
+            but it is much more than that.Naturally, it evokes, honors, and is sometimes directly inspired\
+             by the games that came before it in its characters, music, and mechanics. ',
+              likes: [],
+              score: 8,
+              'game-id': '',
+              'review-id': '',
+              uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
+              username: 'YaminYassin',
             },
           ],
         };
-        this.isLoaded = true;
         console.log('game object ', this.game);
+        this.isLoaded = true;
       });
     });
   }

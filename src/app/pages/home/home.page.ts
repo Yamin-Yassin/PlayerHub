@@ -9,15 +9,14 @@ import { PostReview } from '@AppTypes/appTypes';
 export class HomePage implements OnInit {
   public content: PostReview[] = [
     {
-      username: 'yaminyassin',
       avatar: '../../../assets/img/sofia.png',
-      score: 8.7,
-      description: ` Odyssey looks like a straight successor to the Mario 64 and Sunshine line of
-    sandbox 3D Marios, but it is much more than that.Naturally, it evokes, honors, and is sometimes
-     directly inspired by the games that came before it in its characters, music, and mechanics. `,
-      photo: null,
-      datetime: '10 jul',
-      date: Date.now().toString(),
+      date: '10 jul',
+      description: 'first post hehe',
+      likes: [],
+      photo: '../../../assets/img/sofia.png',
+      'post-id': 'postidhere',
+      uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
+      username: 'YaminYassin',
     },
   ];
 
@@ -25,15 +24,14 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.content.push({
-      username: 'yaminyassin',
       avatar: '../../../assets/img/sofia.png',
-      score: 8.7,
-      description: ` Odyssey looks like a straight successor to the Mario 64 and Sunshine line of
-      sandbox 3D Marios, but it is much more than that.Naturally, it evokes, honors, and is sometimes
-       directly inspired by the games that came before it in its characters, music, and mechanics. `,
-      photo: null,
-      datetime: '10 jul',
-      date: Date.now().toString(),
+      date: '10 jul',
+      description: 'first post hehe',
+      likes: [],
+      photo: '../../../assets/img/sofia.png',
+      'post-id': 'postidhere',
+      uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
+      username: 'YaminYassin',
     });
   }
 }

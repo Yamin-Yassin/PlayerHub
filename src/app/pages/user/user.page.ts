@@ -24,26 +24,29 @@ export class UserPage implements OnInit {
   };
 
   post: PostReview = {
-    username: 'YaminYassin',
     avatar: '../../../assets/img/sofia.png',
+    date: '10 jul',
     description: 'first post hehe',
+    likes: [],
     photo: '../../../assets/img/sofia.png',
-    score: null,
-    datetime: '10 jul',
-    date: Date.now().toString(),
+    'post-id': 'postidhere',
+    uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
+    username: 'YaminYassin',
   };
 
   review: PostReview = {
-    username: 'YaminYassin',
     avatar: '../../../assets/img/sofia.png',
+    date: '10 jul',
     description:
       'Odyssey looks like a straight successor to the Mario 64 and Sunshine line of sandbox 3D Marios,\
-       but it is much more than that.Naturally, it evokes, honors, and is sometimes directly inspired\
-        by the games that came before it in its characters, music, and mechanics. ',
-    photo: null,
+  but it is much more than that.Naturally, it evokes, honors, and is sometimes directly inspired\
+   by the games that came before it in its characters, music, and mechanics. ',
+    likes: [],
     score: 8,
-    datetime: '10 jul',
-    date: Date.now().toString(),
+    'game-id': '',
+    'review-id': '',
+    uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
+    username: 'YaminYassin',
   };
   constructor(public photoService: PhotoService, private loc: Location) {}
 
