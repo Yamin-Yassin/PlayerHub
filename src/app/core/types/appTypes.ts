@@ -28,12 +28,13 @@ export interface Review {
 
 export type PostReview = Post | Review;
 
-export interface Reply {
+export interface Comment {
   username: string;
-  uid?: string;
+  uid: string;
+  'comment-id': string;
+  'post-review-id': string;
   avatar: string;
   description: string;
-  datetime: string | null;
   date: string;
 }
 
@@ -61,3 +62,6 @@ export interface Profile {
   friends: string[];
   achievements: number;
 }
+
+export const isPost = (data: PostReview): data is Post =>
+  (data as Post)['post-id'] !== undefined;

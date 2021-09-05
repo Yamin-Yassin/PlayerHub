@@ -60,6 +60,7 @@ export class FireService {
       .collection('Comments')
       .snapshotChanges();
   }
+
   getReviewComments(id: string) {
     return this.af
       .collection('Reviews')

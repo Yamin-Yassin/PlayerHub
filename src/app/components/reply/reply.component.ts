@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Reply } from '@AppTypes/appTypes';
+import { Comment } from '@AppTypes/appTypes';
 
 @Component({
   selector: 'app-reply',
@@ -7,7 +7,7 @@ import { Reply } from '@AppTypes/appTypes';
   styleUrls: ['./reply.component.scss'],
 })
 export class ReplyComponent implements OnInit {
-  @Input() data: Reply;
+  @Input() data: Comment;
 
   constructor() {}
 

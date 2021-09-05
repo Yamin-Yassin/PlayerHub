@@ -1,8 +1,9 @@
+import { FireService } from '@fire/fire.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Reply } from '@AppTypes/appTypes';
+import { Comment, isPost, PostReview } from '@AppTypes/appTypes';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -11,29 +12,58 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./comment.page.scss'],
 })
 export class CommentPage implements OnInit {
-  public originalData: any;
+  public data: PostReview;
 
-  comments: Reply[] = [
-    {
-      username: 'yaminyassin',
-      avatar: '../../../assets/img/sofia.png',
-      description:
-        'do it squirt? is ur booty real wet? do it fart? can i smell?',
-      datetime: '10 jul 2021',
-      date: Date.now().toString(),
-    },
-  ];
+  comments: Comment[] = [];
   constructor(
-    private activatedRoute: ActivatedRoute,
     private location: Location,
     private router: Router,
     private formBuilder: FormBuilder,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private fire: FireService
   ) {}
 
   ngOnInit() {
-    this.originalData = history.state.data;
-    console.log(this.originalData);
+    this.data = history.state.data;
+    if (isPost(this.data)) {
+      this.fire
+        .getPostComments(this.data['post-id'])
+        .subscribe((commentsData) => {
+          this.comments = [];
+
+          commentsData.forEach((e) => {
+            const comment: Comment = {
+              avatar: e.payload.doc.data()['avatar'],
+              'comment-id': e.payload.doc.data()['comment-id'],
+              date: e.payload.doc.data()['date'],
+              description: e.payload.doc.data()['description'],
+              'post-review-id': e.payload.doc.data()['post-review-id'],
+              uid: e.payload.doc.data()['uid'],
+              username: e.payload.doc.data()['username'],
+            };
+            this.comments.push(comment);
+          });
+        });
+    } else {
+      this.fire
+        .getReviewComments(this.data['review-id'])
+        .subscribe((commentsData) => {
+          this.comments = [];
+
+          commentsData.forEach((e) => {
+            const comment: Comment = {
+              avatar: e.payload.doc.data()['avatar'],
+              'comment-id': e.payload.doc.data()['comment-id'],
+              date: e.payload.doc.data()['date'],
+              description: e.payload.doc.data()['description'],
+              'post-review-id': e.payload.doc.data()['post-review-id'],
+              uid: e.payload.doc.data()['uid'],
+              username: e.payload.doc.data()['username'],
+            };
+            this.comments.push(comment);
+          });
+        });
+    }
   }
 
   goBack() {

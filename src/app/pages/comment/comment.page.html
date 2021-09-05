@@ -8,8 +8,8 @@
 </ion-toolbar>
 
 <ion-content>
-  <app-post [data]="originalData"></app-post>
-  <app-reply *ngFor="let reply of comments" [data]="reply"></app-reply>
+  <app-post [data]="data"></app-post>
+  <app-reply *ngFor="let comment of comments" [data]="comment"></app-reply>
 </ion-content>
 
 <ion-footer>
