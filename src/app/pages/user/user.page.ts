@@ -48,7 +48,7 @@ export class UserPage implements OnInit {
     uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
     username: 'YaminYassin',
   };
-  constructor(public photoService: PhotoService, private loc: Location) {}
+  constructor(private loc: Location) {}
 
   ngOnInit() {
     this.username = 'yaminyassin';
@@ -59,9 +59,6 @@ export class UserPage implements OnInit {
     console.log('Segment changed', ev);
   }
 
-  addPhotoToGallery() {
-    this.photoService.addnewToGallery();
-  }
   navigateBack() {
     this.loc.back();
   }

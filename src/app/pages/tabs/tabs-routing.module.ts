@@ -20,6 +20,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'create-post',
+        loadChildren: () =>
+          import('@pages/create-post/create-post.module').then(
+            (m) => m.CreatePostPageModule
+          ),
+      },
+      {
         path: 'profile',
         loadChildren: () =>
           import('@pages/profile/profile.module').then(
