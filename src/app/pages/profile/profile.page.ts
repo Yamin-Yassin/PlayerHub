@@ -107,6 +107,6 @@ export class ProfilePage implements OnInit {
   }
 
   addPhotoToGallery() {
-    this.photoService.addNewToGallery();
+    console.log(this.photoService.addNewToGallery());
   }
 }

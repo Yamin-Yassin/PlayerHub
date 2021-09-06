@@ -5,25 +5,30 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   providedIn: 'root',
 })
 export class PhotoService {
-  public photos: Photo[] = [];
+  public photo: Photo = {
+    filepath: '',
+    base64string: '',
+  };
 
   constructor() {}
 
-  public async addnewToGallery() {
+  public async addNewToGallery() {
     const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Prompt,
       allowEditing: false,
       quality: 100,
     });
-
-    this.photos.unshift({
-      filepath: 'soon...',
-      webviewPath: capturedPhoto.webPath,
-    });
+    this.photo = {
+      filepath: capturedPhoto.path,
+      base64string: capturedPhoto.base64String,
+    };
+    console.log(this.photo);
+    return this.photo;
   }
 }
 
 export interface Photo {
   filepath: string;
-  webviewPath: string;
+  base64string: string;
 }
