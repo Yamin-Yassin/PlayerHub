@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "138985943573",
+    "project_id": "playerhub-67922",
+    "storage_bucket": "playerhub-67922.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138985943573:android:db3f7b70ccc81bbf77541c",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138985943573-goivj8vi248bjjt36kuedb39pb8ae9rl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpkaESfLBk2ENOMR-rlf5oaZjrINubSBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138985943573-goivj8vi248bjjt36kuedb39pb8ae9rl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
