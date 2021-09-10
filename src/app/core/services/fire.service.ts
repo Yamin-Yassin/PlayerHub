@@ -6,7 +6,34 @@ import { UserDetails, PostReview } from '@AppTypes/appTypes';
   providedIn: 'root',
 })
 export class FireService {
+  private uid = '';
+  private pushToken = '';
+
   constructor(private af: AngularFirestore) {}
+
+  setUid(uid: string) {
+    this.uid = uid;
+  }
+
+  getUID() {
+    if (!this.uid) {
+      return;
+    }
+
+    return this.uid;
+  }
+
+  setToken(token: string) {
+    this.pushToken = token;
+  }
+
+  getToken() {
+    if (!this.pushToken) {
+      return;
+    }
+
+    return this.pushToken;
+  }
 
   subscribeLogin(data: any) {
     const id = this.af.createId();
@@ -35,6 +62,7 @@ export class FireService {
       .collection('Reviews', (ref) => ref.where('uid', '==', uid))
       .snapshotChanges();
   }
+
   getPosts(uid: string) {
     return this.af
       .collection('Posts', (ref) => ref.where('uid', '==', uid))

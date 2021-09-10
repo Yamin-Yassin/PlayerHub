@@ -19,8 +19,15 @@ export class FireauthService {
         .auth()
         .createUserWithEmailAndPassword(value.email, value.password)
         .then(
-          (res) => resolve(res),
-          (err) => reject(err)
+          (res) => {
+            console.log('DO REGISTER ', JSON.stringify(res));
+            this.fireService.setUid(res.user.uid);
+            resolve(res);
+          },
+          (err) => {
+            console.error('DO REGISTER', JSON.stringify(err));
+            reject(err);
+          }
         );
     });
   }
@@ -32,7 +39,7 @@ export class FireauthService {
         .signInWithEmailAndPassword(value.email, value.password)
         .then((res) => {
           resolve(res);
-          this.fireService.subscribeLogin(res);
+          this.fireService.setUid(res.user.uid);
         })
         .catch((err) => {
           reject(err);

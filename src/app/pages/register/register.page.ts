@@ -59,7 +59,7 @@ export class RegisterPage implements OnInit {
   tryRegister(value: { email: string; password: string }) {
     this.authService.doRegister(value).then(
       (res) => {
-        console.log('Register sucessfull');
+        console.log('Register sucessfull', res);
         this.errorMessage = '';
 
         this.authService.doLogin(value).then(
@@ -75,9 +75,11 @@ export class RegisterPage implements OnInit {
         const user: UserDetails = {
           email: value.email,
           username: '',
+          uid: null,
+          pushToken: null,
         };
 
-        this.dataService.changeMessage(user);
+        this.dataService.changeMessage(user); // CHANGE THIS TO USE ROUTER TO PASS USER
         this.router.navigate(['/username']);
       },
       (err) => {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { PhotoService } from '@services/photo.service';
 
 @Component({
@@ -7,11 +8,14 @@ import { PhotoService } from '@services/photo.service';
   styleUrls: ['./create-post.page.scss'],
 })
 export class CreatePostPage implements OnInit {
-  constructor(public photoService: PhotoService) {}
+  constructor(
+    public photoService: PhotoService,
+    private afFunc: AngularFireFunctions
+  ) {}
 
   ngOnInit() {}
 
   addPhotoToGallery() {
-    this.photoService.addNewToGallery();
+    //this.photoService.addNewToGallery();
   }
 }

@@ -1,6 +1,8 @@
 export type UserDetails = {
   email: string;
   username: string;
+  uid: string | null;
+  pushToken: string | null;
 };
 
 export interface Post {

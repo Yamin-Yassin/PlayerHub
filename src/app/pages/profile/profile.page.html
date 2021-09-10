@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{user.username}}</ion-title>
+    <ion-title *ngIf="loaded">{{user.username}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addPhotoToGallery()">
         <ion-icon name="camera-outline"></ion-icon>

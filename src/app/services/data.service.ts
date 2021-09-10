@@ -9,6 +9,8 @@ export class DataService {
   private user: UserDetails = {
     email: '',
     username: '',
+    uid: null,
+    pushToken: null,
   };
 
   private messageSource = new BehaviorSubject(this.user);

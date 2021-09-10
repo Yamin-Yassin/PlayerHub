@@ -38,6 +38,7 @@ export class UsernamePage implements OnInit, OnDestroy {
   constructor(
     private data: DataService,
     private fire: FireService,
+
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
@@ -55,6 +56,7 @@ export class UsernamePage implements OnInit, OnDestroy {
     });
 
     this.subscription = this.data.currentMessage.subscribe((msg) => {
+      //CHANGE THIS TO USE ROUTER TO GET DATA
       this.message = msg;
     });
   }
@@ -69,6 +71,8 @@ export class UsernamePage implements OnInit, OnDestroy {
     const t: UserDetails = {
       email: this.message.email,
       username: value.username,
+      uid: this.fire.getUID(),
+      pushToken: this.fire.getToken(),
     };
 
     this.isvalid = !this.usernameList.includes(
