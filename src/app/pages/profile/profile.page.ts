@@ -18,9 +18,12 @@ export class ProfilePage implements OnInit {
   ngames = 0;
   nfriends = 0;
 
+  token: string;
   constructor(public photoService: PhotoService, private fire: FireService) {}
 
   ngOnInit() {
+    this.token = this.fire.getToken();
+
     this.selectedSegment = 'games';
 
     this.fire

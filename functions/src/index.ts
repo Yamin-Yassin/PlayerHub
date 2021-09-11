@@ -3,51 +3,11 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp(functions.config().firebase);
 
-functions.region('europe-west1');
-
-export.notifyFriends = functions.firestore
-    .document('Posts/{post-id}')
-    .onCreate(async (snapshot, context) => {
-        const data = snapshot.data();
-
-
-        const uid = data.uid; // o UID da pessoa que postou 
-
-
-        const db = admin.firestore();
-
-        // 1º Buscar a lista dos amigos da pessoa que postou 
-        const profileRef = db.collection('Profile').where('uid', '==', uid);
-        const profile = await profileRef.get();
-
-        let myFriends;
-
-        profile.forEach((res) => {
-             res.data().friends;
-            myFriends = res.data().friends;
-        })
-
-        // 2º Preciso de ir buscar os pushTokens de cada um dos amigos
-        
-
-        // 3º Com os tokens, consigo mandar notificação a cada dispositivo 
-
-        // Criar a mensagem da notificacao (falta)
-
-        
-        const payload = {}
-        
-        const tokens:any[] = []
-        
-        return admin.messaging().sendToDevice(tokens, payload);
-
-})
-
 exports.postCreated = functions.firestore
   .document('friends/{friendid}')
   .onCreate(async (snapshot, context) => {
-    const data = snapshot.data();//snapshot tem os dados do documento
-    
+    const data = snapshot.data(); //snapshot tem os dados do documento
+
     const payload = {
       notification: {
         title: 'TESTE DE NOTIFICACAO',
@@ -58,7 +18,7 @@ exports.postCreated = functions.firestore
     const db = admin.firestore();
     const userDetails = db
       .collection('userDetails')
-      .where('uid', '==', 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2');
+      .where('uid', '==', 'LFv29pWLvHP4rdnrZwIduXF1zqQ2');
 
     const users = await userDetails.get();
 
@@ -89,4 +49,50 @@ exports.postUpdated = functions.firestore
 
     console.log('After', snapshot.after.data());
     return Promise.resolve();
+  });
+
+exports.alertFriends = functions.firestore
+  .document('Posts/{postID}')
+  .onCreate(async (snapshot, context) => {
+    const data = snapshot.data();
+
+    const uid = data.uid; // o UID da pessoa que postou
+
+    const db = admin.firestore();
+
+    // 1º Buscar a lista dos amigos da pessoa que postou
+    const profileRef = db.collection('Profile').where('uid', '==', uid);
+    const profile = await profileRef.get();
+
+    let myFriends;
+
+    profile.forEach((res) => {
+      myFriends = res.data().friends;
+    });
+    console.log('Friends ', myFriends);
+    // 2º Preciso de ir buscar os pushTokens de cada um dos amigos
+    const tokens: any[] = [];
+
+    const userDetailsRef = db
+      .collection('userDetails')
+      .where('uid', 'in', myFriends);
+
+    const userDetails = await userDetailsRef.get();
+
+    userDetails.forEach((res) => {
+      tokens.push(res.data().pushToken);
+    });
+
+    console.log('TOKENS ', tokens);
+
+    // 3º Criar o payload
+    const payload = {
+      notification: {
+        title: `${data.username} has a new Post`,
+        body: data.description,
+        imageUrl: data.photo,
+      },
+    };
+
+    return admin.messaging().sendToDevice(tokens, payload);
   });
