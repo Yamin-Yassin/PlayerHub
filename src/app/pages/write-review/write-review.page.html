@@ -1,8 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()"></ion-button>
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+
+    <ion-title>Review</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <!-- BACK BUTTON -->
-  <ion-fab vertical="top" horizontal="start">
-    <ion-fab-button size="small" (click)="goBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center"> game name </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-textarea
+        rows="10"
+        autoGrow="false"
+        autofocus="true"
+        inputmode="text"
+        minlength="50"
+        wrap="soft"
+        maxlength="400"
+        placeholder="Write a review..."
+        class="reviewInput"
+      ></ion-textarea>
+
+      <ion-item lines="none">
+        <ion-range min="0" max="10" step="1" snaps pin="true">
+          <ion-icon
+            slot="start"
+            size="small"
+            color="danger"
+            name="thumbs-down"
+          ></ion-icon>
+          <ion-icon slot="end" color="success" name="thumbs-up"></ion-icon>
+        </ion-range>
+      </ion-item>
+
+      <ion-button expand="block">Submit</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

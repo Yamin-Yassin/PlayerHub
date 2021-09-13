@@ -1,0 +1,11 @@
+.reviewInput {
+  height: 80%;
+}
+
+ion-textarea {
+  --background: var(--ion-color-light);
+  --padding-start: 12px;
+  --padding-end: 12px;
+
+  border-radius: 16px;
+}

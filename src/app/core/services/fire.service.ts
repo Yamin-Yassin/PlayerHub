@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { UserDetails } from '@AppTypes/appTypes';
+import { Post, UserDetails } from '@AppTypes/appTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,13 @@ export class FireService {
     this.uid = uid;
   }
 
+  createID() {
+    return this.af.createId();
+  }
   getUID() {
     if (!this.uid) {
       return;
     }
-
     return this.uid;
   }
 
@@ -35,15 +37,14 @@ export class FireService {
     return this.pushToken;
   }
 
-  subscribeLogin(data: any) {
-    const id = this.af.createId();
-  }
+  subscribeLogin(data: any) {}
 
   unsubscribeLogOut() {
     localStorage.removeItem('user');
   }
 
   createUsername(details: UserDetails) {
+    this.createProfile(details);
     return this.af.collection('userDetails').add(details);
   }
 
@@ -51,6 +52,22 @@ export class FireService {
     return this.af.collectionGroup('userDetails').snapshotChanges();
   }
 
+  createProfile(details: UserDetails) {
+    const profileData = {
+      username: details.username,
+      name: details.username,
+      description: '',
+      avatar: '',
+      uid: this.uid,
+      games: [],
+      posts: [],
+      reviews: [],
+      friends: [],
+      achievements: 0,
+    };
+
+    this.af.collection('Profile').doc(this.uid).set(profileData);
+  }
   getProfileData(uid: string) {
     return this.af
       .collection('Profile', (ref) => ref.where('uid', '==', uid))
@@ -100,5 +117,29 @@ export class FireService {
   postReview(review: any) {
     const id = this.af.createId();
     this.af.collection('Reviews').doc(id).set(review);
+  }
+
+  postPost(id: string, desc: string, filename: string) {
+    //TODO No login ir buscar isto tudo e guardar em variáveis aqui no fireservice
+    let profileData;
+
+    const post: Post = {
+      'post-id': id,
+      avatar: '',
+      date: Date.now().toString(),
+      description: desc,
+      uid: this.uid,
+      likes: [],
+      photo: filename,
+      username: '',
+    };
+    return this.af.collection('Posts').doc(id).set(post);
+  }
+
+  updateProfilePost(id: string, oldPosts: string[]) {
+    return this.af
+      .collection('Posts')
+      .doc('cMdaSCrlFicrZzO9qPmn')
+      .update({ posts: [...oldPosts, id] });
   }
 }

@@ -6,6 +6,12 @@
     </ion-fab-button>
   </ion-fab>
 
+  <ion-fab vertical="top" horizontal="end">
+    <ion-fab-button size="small" translucent>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <div class="game-images">
     <!-- images -->
     <ion-slides>
@@ -64,14 +70,10 @@
       inputmode="text"
       minlength="1"
       wrap="soft"
-      maxlength="140"
+      maxlength="240"
       placeholder="Add a comment..."
+      (ionFocus)="gotoReview()"
     >
     </ion-textarea>
-    <ion-text color="primary" slot="end" class="ion-padding-horizontal">
-      <ion-label>
-        <span>Post</span>
-      </ion-label>
-    </ion-text>
   </ion-toolbar>
 </ion-footer>

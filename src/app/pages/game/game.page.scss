@@ -6,7 +6,7 @@ ion-textarea {
   --background: var(--ion-color-light);
   --padding-start: 12px;
   --padding-end: 12px;
-
+  width: 95%;
   border-radius: 16px;
 }
 
@@ -26,4 +26,12 @@ ion-toolbar ion-avatar {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.textInput {
+  width: 50%;
+}
+
+.scoreInpu {
+  width: 30px;
 }
