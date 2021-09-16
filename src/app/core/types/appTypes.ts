@@ -1,44 +1,30 @@
-export type UserDetails = {
-  email: string;
-  username: string;
-  uid: string | null;
-  pushToken: string | null;
-};
-
+import firebase from 'firebase/app';
 export interface Post {
   avatar: string;
+  postedDate: Date | firebase.firestore.Timestamp | any;
   date: string;
   description: string | null;
   likes: string[];
   photo: string;
-  'post-id': string;
+  postReviewID: string;
   uid: string;
   username: string;
 }
 
 export interface Review {
   avatar: string;
+  postedDate: Date | firebase.firestore.Timestamp | any;
   date: string;
   description: string;
   likes: string[];
   score: number;
   'game-id': string;
-  'review-id': string;
+  postReviewID: string;
   uid: string;
   username: string;
 }
 
 export type PostReview = Post | Review;
-
-export interface Comment {
-  username: string;
-  uid: string;
-  'comment-id': string;
-  'post-review-id': string;
-  avatar: string;
-  description: string;
-  date: string;
-}
 
 export interface Game {
   genre: string[];
@@ -49,7 +35,7 @@ export interface Game {
   'release-date': string | null;
   studio: string;
   score?: number | null;
-  reviews?: PostReview[] | null;
+  reviews?: string[] | null;
 }
 
 export interface Profile {
@@ -63,7 +49,34 @@ export interface Profile {
   reviews: string[];
   friends: string[];
   achievements: number;
+  email: string;
+  pushToken: string;
 }
 
-export const isPost = (data: PostReview): data is Post =>
-  (data as Post)['post-id'] !== undefined;
+export interface Comment {
+  description: string;
+  username: string;
+  uid: string;
+  avatar: string;
+  postedDate: Date | firebase.firestore.Timestamp | any;
+  commentID: string;
+  postReviewID: string;
+}
+
+export const isReview = (data: PostReview): data is Post =>
+  (data as Review)['game-id'] !== undefined;
+
+export const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];

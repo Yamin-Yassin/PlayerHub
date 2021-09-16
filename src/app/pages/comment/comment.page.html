@@ -15,7 +15,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-avatar slot="start">
-      <img src="../../../assets/img/sofia.png" alt="" />
+      <img src="{{data.avatar}}" alt="" />
     </ion-avatar>
 
     <ion-textarea
@@ -26,9 +26,17 @@
       wrap="soft"
       maxlength="140"
       placeholder="Add a comment..."
+      (ionChange)="setDescription($event)"
+      [value]="description"
     >
     </ion-textarea>
-    <ion-text color="primary" slot="end" class="ion-padding-horizontal">
+    <ion-text
+      color="primary"
+      slot="end"
+      class="ion-padding-horizontal"
+      button
+      (click)="postComment()"
+    >
       <ion-label>
         <span>Post</span>
       </ion-label>

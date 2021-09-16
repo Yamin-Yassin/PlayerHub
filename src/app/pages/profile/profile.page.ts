@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { FireService } from '@fire/fire.service';
 import { Component, OnInit } from '@angular/core';
-import { Game, Post, Review, Profile } from '@AppTypes/appTypes';
-import { PhotoService } from '@services/photo.service';
+import { Game, Post, Review } from '@AppTypes/appTypes';
+import { PhotoService } from '@fire/photo.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,41 +12,22 @@ import { PhotoService } from '@services/photo.service';
 export class ProfilePage implements OnInit {
   selectedSegment: string;
   loaded = false;
-  user: Profile;
   games: Game[] = [];
   posts: Post[] = [];
   reviews: Review[] = [];
   ngames = 0;
   nfriends = 0;
 
-  token: string;
-  constructor(public photoService: PhotoService, private fire: FireService) {}
+  constructor(public photoService: PhotoService, public fire: FireService) {}
 
   ngOnInit() {
-    this.token = this.fire.getToken();
-
     this.selectedSegment = 'games';
 
-    this.fire.getProfileData(this.fire.getUID()).subscribe((data) => {
-      data.forEach((e) => {
-        this.user = {
-          username: e.payload.doc.data()['username'],
-          name: e.payload.doc.data()['name'],
-          description: e.payload.doc.data()['description'],
-          avatar: e.payload.doc.data()['avatar'],
-          uid: e.payload.doc.data()['uid'],
-          games: e.payload.doc.data()['games'],
-          posts: e.payload.doc.data()['posts'],
-          reviews: e.payload.doc.data()['reviews'],
-          friends: e.payload.doc.data()['friends'],
-          achievements: e.payload.doc.data()['achievements'],
-        };
-      });
+    this.ngames = this.fire.myProfile.games.length;
+    this.nfriends = this.fire.myProfile.friends.length;
 
-      this.ngames = this.user.games.length;
-      this.nfriends = this.user.friends.length;
-
-      this.fire.getGames(this.user.games).subscribe((gameData) => {
+    this.fire.getGames(this.fire.myProfile.games).subscribe(
+      (gameData) => {
         this.games = [];
 
         gameData.forEach((e) => {
@@ -60,47 +42,58 @@ export class ProfilePage implements OnInit {
           };
           this.games.push(game);
         });
-      });
 
-      this.fire.getPosts(this.user.uid).subscribe((postData) => {
+        console.log(this.games);
+      },
+      (error) => console.log(JSON.stringify(error))
+    );
+
+    this.fire.getPosts(this.fire.getUID()).subscribe(
+      (postData) => {
         this.posts = [];
 
         postData.forEach((e) => {
           const post = {
             avatar: e.payload.doc.data()['avatar'],
+            postedDate: e.payload.doc.data()['postedDate'],
             date: e.payload.doc.data()['date'],
             description: e.payload.doc.data()['description'],
             likes: e.payload.doc.data()['likes'],
             photo: e.payload.doc.data()['photo'],
-            'post-id': e.payload.doc.data()['post-id'],
+            postReviewID: e.payload.doc.data()['postReviewID'],
             uid: e.payload.doc.data()['uid'],
             username: e.payload.doc.data()['username'],
           };
           this.posts.push(post);
         });
-      });
+      },
+      (error) => console.log(JSON.stringify(error))
+    );
 
-      this.fire.getReviews(this.user.uid).subscribe((reviewData) => {
+    this.fire.getReviews(this.fire.getUID()).subscribe(
+      (reviewData) => {
         this.reviews = [];
 
         reviewData.forEach((e) => {
           const review = {
             avatar: e.payload.doc.data()['avatar'],
+            postedDate: e.payload.doc.data()['postedDate'],
             date: e.payload.doc.data()['date'],
             description: e.payload.doc.data()['description'],
             likes: e.payload.doc.data()['likes'],
             score: e.payload.doc.data()['score'],
             'game-id': e.payload.doc.data()['game-id'],
-            'review-id': e.payload.doc.data()['review-id'],
+            postReviewID: e.payload.doc.data()['postReviewID'],
             uid: e.payload.doc.data()['uid'],
             username: e.payload.doc.data()['username'],
           };
           this.reviews.push(review);
         });
-      });
+      },
+      (error) => console.log(JSON.stringify(error))
+    );
 
-      this.loaded = true;
-    });
+    this.loaded = true;
   }
 
   segmentChanged(ev: any) {

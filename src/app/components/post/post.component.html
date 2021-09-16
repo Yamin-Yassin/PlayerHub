@@ -1,19 +1,27 @@
 <ion-card class="post">
   <!-- PROFILE INFO -->
-  <ion-item lines="none" button (click)="navigateProfile()">
-    <ion-avatar slot="start">
+  <ion-item lines="none">
+    <ion-avatar slot="start" button (click)="navigateProfile()">
       <img src="{{ data.avatar }}" alt="" />
     </ion-avatar>
-    <ion-label>
-      <p>YaminYassin</p>
+    <ion-label button (click)="navigateProfile()">
+      <p>{{ data.username }}</p>
     </ion-label>
     <ion-text slot="end" *ngIf="data.score != null">
       <ion-label>{{ data.score }}</ion-label>
     </ion-text>
+    <ion-button
+      slot="end"
+      (click)="confirmDelete()"
+      fill="clear"
+      color="danger"
+    >
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </ion-button>
   </ion-item>
 
   <!-- IMAGE  -->
-  <img src="{{ data.photo }}" alt="" *ngIf="data.photo != null" />
+  <img *ngIf="data.photo != null" src="{{ data.photo }}" alt="" />
 
   <!-- DESCRIPTION -->
   <ion-card-content button (click)="navigateComment()">
@@ -22,16 +30,27 @@
 
   <!-- INTERACTIONS -->
   <ion-toolbar>
+    <ion-text class="date ion-padding-horizontal" slot="start">
+      <ion-label>{{ data.date.replace(";", "") }}</ion-label>
+    </ion-text>
     <ion-buttons slot="end">
       <ion-button>
         <!-- inserir uma acao no click aqui -->
-        <ion-label class="ion-text-wrap">comments here</ion-label>
+        <ion-label class="ion-text-wrap">{{ comments.length }}</ion-label>
         <ion-icon name="chatbubble-outline"></ion-icon>
       </ion-button>
-      <ion-button>
-        <ion-label>{{ data.likes.length }}</ion-label>
-        <ion-icon name="heart-outline"></ion-icon>
-      </ion-button>
+      <div *ngIf="!isLiked">
+        <ion-button (click)="likePost()">
+          <ion-label>{{ data.likes.length }}</ion-label>
+          <ion-icon name="heart-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div *ngIf="isLiked">
+        <ion-button (click)="dislike()">
+          <ion-label>{{ data.likes.length }}</ion-label>
+          <ion-icon name="heart"></ion-icon>
+        </ion-button>
+      </div>
     </ion-buttons>
   </ion-toolbar>
 </ion-card>

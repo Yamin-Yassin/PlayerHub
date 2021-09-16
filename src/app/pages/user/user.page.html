@@ -7,7 +7,7 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title>{{username}}</ion-title>
+    <ion-title *ngIf="loaded">{{user.username}}</ion-title>
     <!-- ADD FRIEND BUTTON  -->
     <ion-buttons slot="end">
       <ion-button (click)="navigateBack()">
@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="loaded">
   <div class="profileDescription">
     <ion-row class="ion-padding-horizontal ion-align-items-center">
       <!----------------------- Profile Photo -------------------->
@@ -31,19 +31,19 @@
           <ion-col>
             <div class="center-stats">
               <div><strong>Games</strong></div>
-              <div>{{user.nGames}}</div>
+              <div>{{ngames}}</div>
             </div>
           </ion-col>
           <ion-col>
             <div class="center-stats">
               <div><strong>Achievements</strong></div>
-              <div>{{user.nAchievements}}</div>
+              <div>{{user.achievements}}</div>
             </div>
           </ion-col>
           <ion-col>
             <div class="center-stats">
               <div><strong>Friends</strong></div>
-              <div>{{user.nFriends}}</div>
+              <div>{{nfriends}}</div>
             </div>
           </ion-col>
         </ion-row>
@@ -81,8 +81,8 @@
     <div *ngIf="selectedSegment === 'games'">
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <ion-col size="6" *ngFor="let coiso of coisos">
-            <app-game-player></app-game-player>
+          <ion-col size="6" *ngFor="let game of games">
+            <app-game-player [data]="game"></app-game-player>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -90,19 +90,12 @@
 
     <!-- POST SEGMENT -->
     <div *ngIf="selectedSegment === 'posts'">
-      <!--  fazer um infinite scroll para os posts -->
-
-      <ion-infinite-scroll>
-        <app-post [data]="post"></app-post>
-      </ion-infinite-scroll>
+      <app-post *ngFor="let post of posts" [data]="post"> </app-post>
     </div>
 
     <!-- REVIEW SEGMENT -->
     <div *ngIf="selectedSegment === 'reviews'">
-      <!--  fazer um infinite scroll para os reviews -->
-      <ion-infinite-scroll>
-        <app-post [data]="review"></app-post>
-      </ion-infinite-scroll>
+      <app-post *ngFor="let review of reviews" [data]="review"></app-post>
     </div>
   </div>
 </ion-content>

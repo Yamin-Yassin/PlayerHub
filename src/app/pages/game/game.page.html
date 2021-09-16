@@ -37,17 +37,20 @@
     <div class="ion-padding-vertical">
       <div class="section">General Information</div>
       <hr />
-      <p><span class="semi-bold">Release Date:</span> {{game.releaseDate}}</p>
+      <p>
+        <span class="semi-bold">Release Date:</span>
+        {{game['release-date'].replace(';', '')}}
+      </p>
       <p><span class="semi-bold">Available On:</span> {{game.platforms}}</p>
       <p><span class="semi-bold">Genre:</span> {{game.genre}}</p>
     </div>
 
-    <div class="ion-padding-vertical" *ngIf="game.reviews.length != 0">
+    <div class="ion-padding-vertical">
       <div>
         <div class="section">Reviews</div>
         <hr />
       </div>
-      <div *ngFor="let rev of game.reviews">
+      <div *ngFor="let rev of reviews">
         <app-post [data]="rev"></app-post>
       </div>
 
@@ -71,7 +74,7 @@
       minlength="1"
       wrap="soft"
       maxlength="240"
-      placeholder="Add a comment..."
+      placeholder="Add Review..."
       (ionFocus)="gotoReview()"
     >
     </ion-textarea>

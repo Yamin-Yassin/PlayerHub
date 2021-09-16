@@ -2,12 +2,16 @@
   <ion-toolbar color="primary">
     <ion-title>Login</ion-title>
   </ion-toolbar>
+  <div>
+    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+  </div>
 </ion-header>
 
-
 <ion-content>
-  <form [formGroup]="validations_form" (ngSubmit)="tryLogin(validations_form.value)">
-
+  <form
+    [formGroup]="validations_form"
+    (ngSubmit)="tryLogin(validations_form.value)"
+  >
     <ion-item>
       <ion-label position="floating" color="primary">Email</ion-label>
       <ion-input type="text" formControlName="email"></ion-input>
@@ -16,10 +20,10 @@
     <div>
       <ng-container *ngFor="let validation of validation_messages.email">
         <div
-        class="error-message" 
-        *ngIf="validations_form.get('email').hasError(validation.type) && 
-          (validations_form.get('email').dirty || validations_form.get('email').touched)">
-
+          class="error-message"
+          *ngIf="validations_form.get('email').hasError(validation.type) && 
+          (validations_form.get('email').dirty || validations_form.get('email').touched)"
+        >
           {{ validation.message }}
         </div>
       </ng-container>
@@ -30,19 +34,25 @@
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
 
-   
-
     <div>
       <ng-container *ngFor="let validation of validation_messages.password">
-        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && 
-          (validations_form.get('password').dirty || validations_form.get('password').touched)">
+        <div
+          class="error-message"
+          *ngIf="validations_form.get('password').hasError(validation.type) && 
+          (validations_form.get('password').dirty || validations_form.get('password').touched)"
+        >
           {{ validation.message }}
         </div>
       </ng-container>
     </div>
-    
 
-    <ion-button class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
+    <ion-button
+      class="submit-btn"
+      expand="block"
+      type="submit"
+      [disabled]="!validations_form.valid"
+      >Log In</ion-button
+    >
     <label class="error-message">{{errorMessage}}</label>
   </form>
 

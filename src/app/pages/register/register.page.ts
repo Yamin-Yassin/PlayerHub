@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import {
   Validators,
@@ -6,9 +7,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserDetails } from '@AppTypes/appTypes';
 import { FireauthService } from '@fire/fireauth.service';
-import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-register',
@@ -17,8 +16,6 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class RegisterPage implements OnInit {
   validations_form: FormGroup;
-  errorMessage: string = '';
-
   validation_messages = {
     email: [
       { type: 'required', message: 'Email is required.' },
@@ -33,8 +30,9 @@ export class RegisterPage implements OnInit {
     ],
   };
 
+  errorMessage = '';
+
   constructor(
-    private dataService: DataService,
     private authService: FireauthService,
     private formBuilder: FormBuilder,
     private router: Router
@@ -57,35 +55,32 @@ export class RegisterPage implements OnInit {
   }
 
   tryRegister(value: { email: string; password: string }) {
+    console.log('try');
     this.authService.doRegister(value).then(
       (res) => {
-        console.log('Register sucessfull', res);
         this.errorMessage = '';
+        console.log('Register sucessfull', JSON.stringify(res));
 
         this.authService.doLogin(value).then(
-          (res) => {
-            console.log('login successful');
+          (success) => {
+            console.log('login successful', JSON.stringify(success));
           },
           (err) => {
-            console.log('login error');
+            console.log('login error', JSON.stringify(err));
             this.errorMessage = err.message;
           }
         );
 
-        const user: UserDetails = {
-          email: value.email,
-          username: '',
-          uid: null,
-          pushToken: null,
-        };
-
-        this.dataService.changeMessage(user); // CHANGE THIS TO USE ROUTER TO PASS USER
-        this.router.navigate(['/username']);
+        this.router.navigate(['/username'], {
+          state: {
+            data: {
+              email: value.email,
+              uid: res.user.uid,
+            },
+          },
+        });
       },
-      (err) => {
-        console.log(err);
-        this.errorMessage = err.message;
-      }
+      (err) => (this.errorMessage = err.message)
     );
   }
 

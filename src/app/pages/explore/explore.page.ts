@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PhotoService } from '@services/photo.service';
+import { PhotoService } from '@fire/photo.service';
 
 @Component({
   selector: 'app-explore',

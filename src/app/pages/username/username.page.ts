@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Validators,
@@ -8,24 +10,21 @@ import {
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { FireService } from '@fire/fire.service';
-import { DataService } from '@services/data.service';
-import { UserDetails } from '@AppTypes/appTypes';
 
 @Component({
   selector: 'app-username',
   templateUrl: './username.page.html',
   styleUrls: ['./username.page.scss'],
 })
-export class UsernamePage implements OnInit, OnDestroy {
+export class UsernamePage implements OnInit {
   validations_form: FormGroup;
 
-  message: UserDetails;
   subscription: Subscription;
   errorMessage = '';
-
+  data: any;
   //variaveis para validar username
-  usernameList: any[];
-  isvalid: boolean;
+  usernameList: any[] = [];
+  isvalid = false;
 
   validation_messages = {
     username: [
@@ -36,18 +35,13 @@ export class UsernamePage implements OnInit, OnDestroy {
   };
 
   constructor(
-    private data: DataService,
     private fire: FireService,
-
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.fire.getUsernames().subscribe((data) => {
-      this.usernameList = data.map((e) => e.payload.doc.data()['username']);
-    });
-
+    this.data = history.state.data;
     this.validations_form = this.formBuilder.group({
       username: new FormControl(
         '',
@@ -55,40 +49,33 @@ export class UsernamePage implements OnInit, OnDestroy {
       ),
     });
 
-    this.subscription = this.data.currentMessage.subscribe((msg) => {
-      //CHANGE THIS TO USE ROUTER TO GET DATA
-      this.message = msg;
+    this.fire.getUsernames().forEach((userData) => {
+      this.usernameList = [];
+      userData.forEach((e) => {
+        this.usernameList.push(e.data()['username']);
+      });
     });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   tryRegisterUsername(value) {
-    console.log('tryRegisterUsername', value);
-
-    const t: UserDetails = {
-      email: this.message.email,
-      username: value.username,
-      uid: this.fire.getUID(),
-      pushToken: this.fire.getToken(),
-    };
+    console.log('tryRegisterUsername', JSON.stringify(value));
 
     this.isvalid = !this.usernameList.includes(
       this.validations_form.controls['username'].value
     );
 
     if (this.isvalid) {
-      this.fire.createUsername(t).then(
-        (res) => {
-          this.errorMessage = '';
-          this.router.navigate(['tabs/home']);
-        },
-        (err) => {
-          this.errorMessage = err.message;
-        }
-      );
+      this.fire
+        .createProfile(this.data.uid, this.data.email, value.username)
+        .then(
+          (res) => {
+            this.errorMessage = '';
+            this.router.navigate(['/login']);
+          },
+          (err) => {
+            this.errorMessage = err.message;
+          }
+        );
     } else {
       this.errorMessage = 'Username Already Exists';
     }

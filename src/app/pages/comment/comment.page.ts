@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { FireService } from '@fire/fire.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Comment, isPost, PostReview } from '@AppTypes/appTypes';
-import { ToastController } from '@ionic/angular';
+import { Comment, isReview, PostReview } from '@AppTypes/appTypes';
 
 @Component({
   selector: 'app-comment',
@@ -12,32 +10,26 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./comment.page.scss'],
 })
 export class CommentPage implements OnInit {
-  public data: PostReview;
-
+  data: PostReview;
   comments: Comment[] = [];
-  constructor(
-    private location: Location,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private toastController: ToastController,
-    private fire: FireService
-  ) {}
+  description = '';
+  constructor(private location: Location, private fire: FireService) {}
 
   ngOnInit() {
     this.data = history.state.data;
-    if (isPost(this.data)) {
+    if (!isReview(this.data)) {
       this.fire
-        .getPostComments(this.data['post-id'])
+        .getPostComments(this.data['postReviewID'])
         .subscribe((commentsData) => {
           this.comments = [];
 
           commentsData.forEach((e) => {
             const comment: Comment = {
               avatar: e.payload.doc.data()['avatar'],
-              'comment-id': e.payload.doc.data()['comment-id'],
-              date: e.payload.doc.data()['date'],
+              commentID: e.payload.doc.data()['commentID'],
+              postedDate: e.payload.doc.data()['postedDate'],
               description: e.payload.doc.data()['description'],
-              'post-review-id': e.payload.doc.data()['post-review-id'],
+              postReviewID: e.payload.doc.data()['postReviewID'],
               uid: e.payload.doc.data()['uid'],
               username: e.payload.doc.data()['username'],
             };
@@ -46,17 +38,17 @@ export class CommentPage implements OnInit {
         });
     } else {
       this.fire
-        .getReviewComments(this.data['review-id'])
+        .getReviewComments(this.data['postReviewID'])
         .subscribe((commentsData) => {
           this.comments = [];
 
           commentsData.forEach((e) => {
             const comment: Comment = {
               avatar: e.payload.doc.data()['avatar'],
-              'comment-id': e.payload.doc.data()['comment-id'],
-              date: e.payload.doc.data()['date'],
+              commentID: e.payload.doc.data()['commentID'],
+              postedDate: e.payload.doc.data()['postedDate'],
               description: e.payload.doc.data()['description'],
-              'post-review-id': e.payload.doc.data()['post-review-id'],
+              postReviewID: e.payload.doc.data()['postReviewID'],
               uid: e.payload.doc.data()['uid'],
               username: e.payload.doc.data()['username'],
             };
@@ -69,8 +61,18 @@ export class CommentPage implements OnInit {
   goBack() {
     this.location.back();
   }
+  setDescription(ev: any) {
+    this.description = ev.target.value;
+  }
 
-  navigateProfile() {
-    this.router.navigate(['/profile/coco']);
+  postComment() {
+    if (this.description.length !== 0) {
+      if (!isReview(this.data)) {
+        this.fire.postPostComment(this.description, this.data.postReviewID);
+      } else {
+        this.fire.postReviewComment(this.description, this.data.postReviewID);
+      }
+      this.description = '';
+    }
   }
 }

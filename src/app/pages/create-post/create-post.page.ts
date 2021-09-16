@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FireService } from '@fire/fire.service';
-import { AlertController } from '@ionic/angular';
-import { PhotoInfo, PhotoService } from '@services/photo.service';
+import { PhotoInfo, PhotoService } from '@fire/photo.service';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-post',
@@ -13,74 +20,84 @@ export class CreatePostPage implements OnInit {
   photo: PhotoInfo;
   url: string;
   description = '';
+  isLoading = false;
+
   constructor(
     public photoService: PhotoService,
     private alertCtrl: AlertController,
     private storage: AngularFireStorage,
-    private fire: FireService
+    private fire: FireService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {}
 
   async confirmPost() {
-    const alert = await this.alertCtrl.create({
-      header: 'Are you sure you want to post?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('CANCEL');
-          },
-        },
-        {
-          text: 'Okay',
-          handler: () => {
-            console.log('OKAY');
-            this.submitPost();
-          },
-        },
-      ],
-    });
+    const alert = await this.alertCtrl.create(
+      this.photo != null
+        ? {
+            header: 'Are you sure you want to post?',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'secondary',
+              },
+              {
+                text: 'Okay',
+                handler: () => {
+                  console.log('OKAY');
+                  this.submitPost();
+                },
+              },
+            ],
+          }
+        : {
+            header: 'Please choose a photo',
+            buttons: [
+              {
+                text: 'Okay',
+                role: 'cancel',
+              },
+            ],
+          }
+    );
 
     await alert.present();
   }
 
   async uploadPicture() {
-    const pic = await this.photoService.takePhoto();
-    this.photo = { base64string: pic[0], filepath: pic[1] };
-    console.log(JSON.stringify(this.photo));
+    this.photo = await this.photoService.takePhoto();
+    console.log(this);
   }
 
   async submitPost() {
     /*  1. Colocar imagem no Firebase Storage */
-    const ref = this.storage.ref('uploaded/' + this.photo.filepath);
+    this.isLoading = true;
+    const ref = this.storage.ref(this.photo.filepath);
 
     /*  2. Buscar o URL da imagem guardada. */
-    const task = ref.putString(this.photo.base64string, 'base64');
-    task.then(
-      (res) => {
-        ref.getDownloadURL().subscribe(async (url) => {
-          this.url = url;
-          const idPost = this.fire.createID();
-          let posts: any = [];
-          /*  4. Criar documento na coleção "profile" do próprio user */
-          this.fire.postPost(idPost, this.description, this.url);
-
-          this.fire.getProfileData(this.fire.getUID()).subscribe((data) => {
-            data.forEach((e) => {
-              console.log(e.payload.doc.data());
-              posts = e.payload.doc.data()['posts'];
-            });
-            console.log('posts =>', posts);
-            this.fire.updateProfilePost(idPost, posts);
+    const task = ref
+      .putString(this.photo.base64string.split(',')[1], 'base64')
+      .then(
+        (res) => {
+          ref.getDownloadURL().subscribe(async (url) => {
+            this.url = url;
+            /*  4. Criar documento na coleção "profile" do próprio user */
+            this.fire.postPost(this.description, this.url);
+            this.isLoading = false;
+            this.description = '';
+            this.photo = null;
           });
-        });
-      },
-      (rej) => {
-        console.log('ERROR PUBLISHING POST ---> ', rej);
-      }
-    );
+        },
+        (rej) => {
+          this.isLoading = false;
+          console.log('ERROR PUBLISHING POST ---> ', rej);
+        }
+      );
+  }
+
+  setDescription(ev: any) {
+    this.description = ev.target.value;
   }
 }

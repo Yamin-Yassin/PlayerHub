@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { PostReview } from '@AppTypes/appTypes';
-import { PhotoService } from '@services/photo.service';
+import { Game, Post, Profile, Review } from '@AppTypes/appTypes';
+import { FireService } from '@fire/fire.service';
 
 @Component({
   selector: 'app-user',
@@ -10,49 +11,96 @@ import { PhotoService } from '@services/photo.service';
 })
 export class UserPage implements OnInit {
   selectedSegment: string;
-  username: string;
-  coisos: string[] = ['a', 'v', 'c'];
+  loaded = false;
+  games: Game[] = [];
+  posts: Post[] = [];
+  reviews: Review[] = [];
+  ngames = 0;
+  nfriends = 0;
 
-  user = {
-    username: 'yaminyassin',
-    avatar: '../../../assets/img/sofia.png',
-    name: 'Yamin Yassin',
-    description: 'i love games and playing with food',
-    nGames: 10,
-    nAchievements: 100,
-    nFriends: 200,
-  };
+  user: Profile;
 
-  post: PostReview = {
-    avatar: '../../../assets/img/sofia.png',
-    date: '10 jul',
-    description: 'first post hehe',
-    likes: [],
-    photo: '../../../assets/img/sofia.png',
-    'post-id': 'postidhere',
-    uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
-    username: 'YaminYassin',
-  };
-
-  review: PostReview = {
-    avatar: '../../../assets/img/sofia.png',
-    date: '10 jul',
-    description:
-      'Odyssey looks like a straight successor to the Mario 64 and Sunshine line of sandbox 3D Marios,\
-  but it is much more than that.Naturally, it evokes, honors, and is sometimes directly inspired\
-   by the games that came before it in its characters, music, and mechanics. ',
-    likes: [],
-    score: 8,
-    'game-id': '',
-    'review-id': '',
-    uid: 'JmSunvmAGaTWkLM8pGQL3ZDzNRB2',
-    username: 'YaminYassin',
-  };
-  constructor(private loc: Location) {}
+  constructor(private loc: Location, private fire: FireService) {}
 
   ngOnInit() {
-    this.username = 'yaminyassin';
     this.selectedSegment = 'games';
+
+    this.fire.getProfileData(history.state.data).subscribe((data) => {
+      data.forEach((e) => {
+        this.user = JSON.parse(JSON.stringify(e.payload.doc.data()));
+      });
+      this.ngames = this.fire.myProfile.games.length;
+      this.nfriends = this.fire.myProfile.friends.length;
+
+      this.fire.getGames(this.fire.myProfile.games).subscribe(
+        (gameData) => {
+          this.games = [];
+
+          gameData.forEach((e) => {
+            const game = {
+              genre: e.payload.doc.data()['genre'],
+              'id-game': e.payload.doc.data()['id-game'],
+              images: e.payload.doc.data()['images'],
+              name: e.payload.doc.data()['name'],
+              platforms: e.payload.doc.data()['platforms'],
+              'release-date': e.payload.doc.data()['release-date'],
+              studio: e.payload.doc.data()['studio'],
+            };
+            this.games.push(game);
+          });
+
+          console.log(this.games);
+        },
+        (error) => console.log(JSON.stringify(error))
+      );
+
+      this.fire.getPosts(this.fire.getUID()).subscribe(
+        (postData) => {
+          this.posts = [];
+
+          postData.forEach((e) => {
+            const post = {
+              avatar: e.payload.doc.data()['avatar'],
+              postedDate: e.payload.doc.data()['postedDate'],
+              date: e.payload.doc.data()['date'],
+              description: e.payload.doc.data()['description'],
+              likes: e.payload.doc.data()['likes'],
+              photo: e.payload.doc.data()['photo'],
+              postReviewID: e.payload.doc.data()['postReviewID'],
+              uid: e.payload.doc.data()['uid'],
+              username: e.payload.doc.data()['username'],
+            };
+            this.posts.push(post);
+          });
+        },
+        (error) => console.log(JSON.stringify(error))
+      );
+
+      this.fire.getReviews(this.fire.getUID()).subscribe(
+        (reviewData) => {
+          this.reviews = [];
+
+          reviewData.forEach((e) => {
+            const review = {
+              avatar: e.payload.doc.data()['avatar'],
+              postedDate: e.payload.doc.data()['postedDate'],
+              date: e.payload.doc.data()['date'],
+              description: e.payload.doc.data()['description'],
+              likes: e.payload.doc.data()['likes'],
+              score: e.payload.doc.data()['score'],
+              'game-id': e.payload.doc.data()['game-id'],
+              postReviewID: e.payload.doc.data()['postReviewID'],
+              uid: e.payload.doc.data()['uid'],
+              username: e.payload.doc.data()['username'],
+            };
+            this.reviews.push(review);
+          });
+        },
+        (error) => console.log(JSON.stringify(error))
+      );
+
+      this.loaded = true;
+    });
   }
 
   segmentChanged(ev: any) {

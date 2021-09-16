@@ -1,73 +1,102 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Post, UserDetails } from '@AppTypes/appTypes';
+import { Comment, Post, Profile, Review } from '@AppTypes/appTypes';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FireService {
-  private uid = '';
-  private pushToken = '';
+  myProfile: Profile = {
+    username: '',
+    name: '',
+    description: '',
+    avatar: '',
+    uid: '',
+    games: [],
+    posts: [],
+    reviews: [],
+    friends: [],
+    achievements: 0,
+    email: '',
+    pushToken: '',
+  };
 
-  constructor(private af: AngularFirestore) {}
+  constructor(private af: AngularFirestore, private toast: ToastController) {}
 
   setUid(uid: string) {
-    this.uid = uid;
+    this.myProfile.uid = uid;
+    console.log(JSON.stringify(this.myProfile));
   }
 
   createID() {
     return this.af.createId();
   }
+
   getUID() {
-    if (!this.uid) {
+    if (!this.myProfile.uid) {
       return;
     }
-    return this.uid;
+    return this.myProfile.uid;
   }
 
   setToken(token: string) {
-    this.pushToken = token;
+    this.myProfile.pushToken = token;
   }
 
   getToken() {
-    if (!this.pushToken) {
+    if (!this.myProfile.pushToken) {
       return;
     }
-
-    return this.pushToken;
+    return this.myProfile.pushToken;
   }
 
-  subscribeLogin(data: any) {}
-
-  unsubscribeLogOut() {
-    localStorage.removeItem('user');
+  getFirebaseToken() {
+    return this.af.collection('Profile').doc(this.myProfile.uid).get();
   }
 
-  createUsername(details: UserDetails) {
-    this.createProfile(details);
-    return this.af.collection('userDetails').add(details);
+  updateFirebaseToken(newtoken: string) {
+    return this.af.collection('Profile').doc(this.myProfile.uid).update({
+      pushToken: newtoken,
+    });
+  }
+
+  setMyProfile(prof: Profile) {
+    this.myProfile = prof;
+    console.log(this.myProfile);
+  }
+
+  unsubscribeLogOut() {}
+
+  createUsername(profile: Profile) {
+    return this.af.collection('Profile').doc(this.myProfile.uid).set(profile);
   }
 
   getUsernames() {
-    return this.af.collectionGroup('userDetails').snapshotChanges();
+    return this.af.collection('Profile').get();
   }
 
-  createProfile(details: UserDetails) {
-    const profileData = {
-      username: details.username,
-      name: details.username,
-      description: '',
+  createProfile(uid: string, email: string, username: string) {
+    const profile = {
+      username,
+      name: username,
+      description: 'My new Profile',
       avatar: '',
-      uid: this.uid,
-      games: [],
-      posts: [],
-      reviews: [],
-      friends: [],
+      uid,
+      games: [''],
+      posts: [''],
+      reviews: [''],
+      friends: [''],
       achievements: 0,
+      email,
+      pushToken: '',
     };
 
-    this.af.collection('Profile').doc(this.uid).set(profileData);
+    this.myProfile = profile;
+
+    return this.af.collection('Profile').doc(uid).set(profile);
   }
+
   getProfileData(uid: string) {
     return this.af
       .collection('Profile', (ref) => ref.where('uid', '==', uid))
@@ -86,16 +115,211 @@ export class FireService {
       .snapshotChanges();
   }
 
+  getGames(idGames: string[]) {
+    return this.af
+      .collection('Games', (ref) => ref.where('id-game', 'in', idGames))
+      .snapshotChanges();
+  }
+
   getGamePage(gameID: string) {
     return this.af
       .collection('Games', (ref) => ref.where('id-game', '==', gameID))
       .snapshotChanges();
   }
 
-  getGames(idGames: string[]) {
+  getGameReviews(gameID: string) {
     return this.af
-      .collection('Games', (ref) => ref.where('id-game', 'in', idGames))
+      .collection('Reviews', (ref) => ref.where('game-id', '==', gameID))
       .snapshotChanges();
+  }
+
+  postReview(
+    description: string,
+    score: number,
+    gameID: string,
+    oldReviews: string[]
+  ) {
+    const id = this.af.createId();
+    const ts = new Date();
+    const review: Review = {
+      avatar: this.myProfile.avatar,
+      postedDate: ts,
+      date: `${ts.getDate()}/${ts.getMonth()}/${ts.getFullYear()};`,
+      description,
+      likes: [],
+      score,
+      'game-id': gameID,
+      postReviewID: id,
+      uid: this.myProfile.uid,
+      username: this.myProfile.username,
+    };
+
+    this.af
+      .collection('Reviews')
+      .doc(id)
+      .set(review)
+      .then(
+        (res) =>
+          this.af
+            .collection('Games')
+            .doc(gameID)
+            .update({ reviews: [...oldReviews, id] })
+            .then(
+              (success) => {
+                this.af
+                  .collection('Profile')
+                  .doc(review.uid)
+                  .update({
+                    reviews: [...this.myProfile.reviews, id],
+                  })
+                  .then(
+                    (yes) =>
+                      this.presentToast(
+                        'Review Posted!',
+                        null,
+                        null,
+                        'success'
+                      ),
+                    (no) =>
+                      this.presentToast('Failed to post', null, null, 'warning')
+                  );
+              },
+              (error) =>
+                this.presentToast('Failed to post', null, null, 'warning')
+            ),
+        (rej) => this.presentToast('Failed to post', null, null, 'warning')
+      );
+  }
+
+  postPost(desc: string, filename: string) {
+    const id = this.af.createId();
+    const ts = new Date();
+    const post: Post = {
+      postReviewID: id,
+      avatar: this.myProfile.avatar,
+      postedDate: ts,
+      date: `${ts.getDate()}/${ts.getMonth()}/${ts.getFullYear()};`,
+      description: desc,
+      uid: this.myProfile.uid,
+      likes: [],
+      photo: filename,
+      username: this.myProfile.username,
+    };
+    this.af
+      .collection('Posts')
+      .doc(id)
+      .set(post)
+      .then(
+        (res) => {
+          this.af
+            .collection('Profile')
+            .doc(this.myProfile.uid)
+            .update({ posts: [...this.myProfile.posts, id] })
+            .then(
+              (success) =>
+                this.presentToast('Post uploaded!', null, null, 'success'),
+              (err) =>
+                this.presentToast('Failed to upload!', null, null, 'warning')
+            );
+        },
+        (rej) => {
+          console.log(rej);
+        }
+      );
+  }
+
+  deletePost(postID) {
+    return this.af
+      .collection('Profile')
+      .doc(this.myProfile.uid)
+      .update({
+        posts: this.arrayRemove(this.myProfile.posts, postID),
+      })
+      .then(
+        (res) =>
+          this.af
+            .collection('Posts')
+            .doc(postID)
+            .delete()
+            .then(
+              (yes) => this.presentToast('Deleted post', null, null, 'success'),
+              (no) =>
+                this.presentToast('An error occured', null, null, 'warning')
+            ),
+        (rej) =>
+          this.presentToast('An error has occured', null, null, 'warning')
+      );
+  }
+
+  likePost(postID, likesArray: string[]) {
+    return this.af
+      .collection('Posts')
+      .doc(postID)
+      .update({
+        likes: [...likesArray, this.myProfile.uid],
+      });
+  }
+
+  remLikePost(postID, likesArray: string[]) {
+    return this.af
+      .collection('Posts')
+      .doc(postID)
+      .update({
+        likes: this.arrayRemove(likesArray, this.myProfile.uid),
+      });
+  }
+
+  /* ---- COMMENTS ---- */
+  postPostComment(description: string, postReviewID: string) {
+    const id = this.af.createId();
+
+    const comment: Comment = {
+      avatar: this.myProfile.avatar,
+      commentID: id,
+      postedDate: new Date(),
+      description,
+      postReviewID,
+      uid: this.myProfile.uid,
+      username: this.myProfile.username,
+    };
+
+    this.af
+      .collection('Posts')
+      .doc(postReviewID)
+      .collection('Comments')
+      .doc(id)
+      .set(comment)
+      .then(
+        (res) => this.presentToast('Comment Posted!', null, null, 'success'),
+        (rej) =>
+          this.presentToast('Something went wrong', null, null, 'warning')
+      );
+  }
+
+  postReviewComment(description: string, postReviewID: string) {
+    const id = this.af.createId();
+
+    const comment: Comment = {
+      avatar: this.myProfile.avatar,
+      commentID: id,
+      postedDate: new Date(),
+      description,
+      postReviewID,
+      uid: this.myProfile.uid,
+      username: this.myProfile.username,
+    };
+
+    this.af
+      .collection('Reviews')
+      .doc(postReviewID)
+      .collection('Comments')
+      .doc(id)
+      .set(comment)
+      .then(
+        (res) => this.presentToast('Comment Posted!', null, null, 'success'),
+        (rej) =>
+          this.presentToast('Something went wrong', null, null, 'warning')
+      );
   }
 
   getPostComments(id: string) {
@@ -113,33 +337,39 @@ export class FireService {
       .collection('Comments')
       .snapshotChanges();
   }
-
-  postReview(review: any) {
-    const id = this.af.createId();
-    this.af.collection('Reviews').doc(id).set(review);
-  }
-
-  postPost(id: string, desc: string, filename: string) {
-    //TODO No login ir buscar isto tudo e guardar em variáveis aqui no fireservice
-    let profileData;
-
-    const post: Post = {
-      'post-id': id,
-      avatar: '',
-      date: Date.now().toString(),
-      description: desc,
-      uid: this.uid,
-      likes: [],
-      photo: filename,
-      username: '',
-    };
-    return this.af.collection('Posts').doc(id).set(post);
-  }
-
-  updateProfilePost(id: string, oldPosts: string[]) {
+  likeComment(postID, commentID, likesArray) {
     return this.af
       .collection('Posts')
-      .doc('cMdaSCrlFicrZzO9qPmn')
-      .update({ posts: [...oldPosts, id] });
+      .doc(postID)
+      .collection('Comments')
+      .doc(commentID)
+      .update({
+        likes: [...likesArray, this.myProfile.uid],
+      });
+  }
+  remLikeComment(postID, commentID, likesArray) {
+    return this.af
+      .collection('Posts')
+      .doc(postID)
+      .collection('Comments')
+      .doc(commentID)
+      .update({
+        likes: this.arrayRemove(likesArray, this.myProfile.uid),
+      });
+  }
+
+  arrayRemove(arr: any, value: any) {
+    return arr.filter((ele: any) => ele !== value);
+  }
+
+  async presentToast(message, dur?: number, title?: string, col?: string) {
+    const toast = await this.toast.create({
+      header: title || '',
+      message,
+      duration: dur || 2500,
+      color: col || 'black',
+      position: 'top',
+    });
+    toast.present();
   }
 }

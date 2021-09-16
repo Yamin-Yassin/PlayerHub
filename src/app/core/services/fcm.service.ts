@@ -29,7 +29,9 @@ export class FcmService {
   }
 
   public initNotifications() {
-    this.registerPushNotifications();
+    if (this.platform.is('capacitor')) {
+      this.registerPushNotifications();
+    }
   }
 
   private async registerPushNotifications() {

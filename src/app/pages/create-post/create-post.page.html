@@ -2,16 +2,42 @@
   <ion-toolbar>
     <ion-title>createPost</ion-title>
   </ion-toolbar>
+  <div>
+    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+  </div>
 </ion-header>
 
 <ion-content>
-  <ion-button expand="block" (click)="uploadPicture()">
-    <ion-label>Choose Photo</ion-label>
-  </ion-button>
-
-  <img src="" alt="" />
-
-  <ion-button expand="block" (click)="confirmPost()">
-    <ion-label>Submit</ion-label>
-  </ion-button>
+  <ion-card>
+    <ion-card-content>
+      <img *ngIf="photo != null" src="{{photo.webpath}}" alt="" />
+      <ion-textarea
+        rows="5"
+        autoGrow="true"
+        inputmode="text"
+        minlength="1"
+        wrap="soft"
+        maxlength="240"
+        placeholder="Add a description..."
+        (ionChange)="setDescription($event)"
+        [value]="description"
+      >
+      </ion-textarea>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="uploadPicture()">
+        <ion-label>Choose Photo</ion-label>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirmPost()">
+        <ion-label>Submit</ion-label>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title *ngIf="loaded">{{user.username}}</ion-title>
+    <ion-title *ngIf="loaded">{{fire.myProfile.name }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addPhotoToGallery()">
         <ion-icon name="camera-outline"></ion-icon>
@@ -14,7 +14,7 @@
     <ion-row class="ion-padding-horizontal ion-align-items-center">
       <!----------------------- Profile Photo -------------------->
       <ion-col size="3">
-        <img src="{{user.avatar}}" alt="" class="avatar" />
+        <img src="{{fire.myProfile.avatar}}" alt="" class="avatar" />
       </ion-col>
       <!----------------------- Profile Stats ------------------>
       <ion-col size="9">
@@ -28,7 +28,7 @@
           <ion-col>
             <div class="center-stats">
               <div><strong>Achievements</strong></div>
-              <div>{{user.achievements}}</div>
+              <div>{{fire.myProfile.achievements}}</div>
             </div>
           </ion-col>
           <ion-col>
@@ -42,11 +42,10 @@
     </ion-row>
     <!------------------ Profile Description ---------------->
     <ion-row class="ion-padding-horizontal">
-      <strong>{{user.name}}</strong>
+      <strong>{{fire.myProfile.name}}</strong>
     </ion-row>
     <ion-row class="ion-margin">
-      <div class="description">{{user.description}}</div>
-      <ion-text><ion-label>this.token</ion-label></ion-text>
+      <div class="description">{{fire.myProfile.description}}</div>
     </ion-row>
   </div>
 
@@ -80,18 +79,11 @@
     </div>
 
     <div *ngIf="selectedSegment === 'posts'">
-      <!--  fazer um infinite scroll para os posts -->
-
-      <ion-infinite-scroll>
-        <app-post *ngFor="let post of posts" [data]="post"> </app-post>
-      </ion-infinite-scroll>
+      <app-post *ngFor="let post of posts" [data]="post"> </app-post>
     </div>
 
     <div *ngIf="selectedSegment === 'reviews'">
-      <!--  fazer um infinite scroll para os reviews -->
-      <ion-infinite-scroll>
-        <app-post *ngFor="let review of reviews" [data]="review"></app-post>
-      </ion-infinite-scroll>
+      <app-post *ngFor="let review of reviews" [data]="review"></app-post>
     </div>
   </div>
 </ion-content>
