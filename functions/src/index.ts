@@ -20,7 +20,7 @@ exports.notifyFriends = functions
       body: ` ${data.description}`,
     };
     const dataPayload: admin.messaging.DataMessagePayload = {
-      postID: data.postID,
+      uid,
     };
     const payload: admin.messaging.MessagingPayload = {
       notification,
@@ -45,7 +45,7 @@ exports.notifyFriends = functions
 
     const tokens: any[] = [];
 
-    friendsPushTokens.forEach((res) => tokens.push(res.data().token));
+    friendsPushTokens.forEach((res) => tokens.push(res.data()['pushToken']));
 
     console.log('TOKENS', tokens);
 
