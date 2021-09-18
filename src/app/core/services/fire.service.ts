@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Comment, Post, Profile, Review } from '@AppTypes/appTypes';
@@ -81,7 +82,8 @@ export class FireService {
       username,
       name: username,
       description: 'My new Profile',
-      avatar: '',
+      avatar:
+        'https://firebasestorage.googleapis.com/v0/b/playerhub-67922.appspot.com/o/profile.png?alt=media&token=0c4630fc-b0eb-4c08-ab1c-7d534f05fca9',
       uid,
       games: [''],
       posts: [''],
@@ -103,22 +105,34 @@ export class FireService {
       .snapshotChanges();
   }
 
-  getReviews(uid: string) {
+  getReviews(uid: string, startDate: Date) {
     return this.af
-      .collection('Reviews', (ref) => ref.where('uid', '==', uid))
+      .collection('Reviews', (ref) =>
+        ref
+          .where('uid', '==', uid)
+          .where('postedDate', '<', startDate)
+          .orderBy('postedDate', 'desc')
+          .limit(2)
+      )
       .snapshotChanges();
   }
 
-  getPosts(uid: string) {
+  getPosts(uid: string, startDate: Date) {
     return this.af
-      .collection('Posts', (ref) => ref.where('uid', '==', uid))
+      .collection('Posts', (ref) =>
+        ref
+          .where('uid', '==', uid)
+          .where('postedDate', '<', startDate)
+          .orderBy('postedDate', 'desc')
+          .limit(3)
+      )
       .snapshotChanges();
   }
 
   getGames(idGames: string[]) {
     return this.af
       .collection('Games', (ref) => ref.where('id-game', 'in', idGames))
-      .snapshotChanges();
+      .get();
   }
 
   getGamePage(gameID: string) {
@@ -127,9 +141,54 @@ export class FireService {
       .snapshotChanges();
   }
 
-  getGameReviews(gameID: string) {
+  addGame(gameID: string) {
+    const gamesList = [...this.myProfile.games, gameID];
+
     return this.af
-      .collection('Reviews', (ref) => ref.where('game-id', '==', gameID))
+      .collection('Profile')
+      .doc(this.myProfile.uid)
+      .update({
+        games: gamesList,
+      })
+      .then(
+        (res) => {
+          this.presentToast('Game Added', 1000, null, 'success');
+          this.myProfile.games = gamesList;
+        },
+        (rej) => {
+          this.presentToast('Error Occured', 1000, null, 'warning');
+        }
+      );
+  }
+
+  removeGame(gameID: string) {
+    const gamesList = this.arrayRemove(this.myProfile.games, gameID);
+    return this.af
+      .collection('Profile')
+      .doc(this.myProfile.uid)
+      .update({
+        games: gamesList,
+      })
+      .then(
+        (res) => {
+          this.presentToast('Game Removed', 1000, null, 'success');
+          this.myProfile.games = gamesList;
+        },
+        (rej) => {
+          this.presentToast('Error Occured', 1000, null, 'warning');
+        }
+      );
+  }
+
+  getGameReviews(gameID: string, startDate: Date) {
+    return this.af
+      .collection('Reviews', (ref) =>
+        ref
+          .where('game-id', '==', gameID)
+          .where('postedDate', '<', startDate)
+          .orderBy('postedDate', 'desc')
+          .limit(3)
+      )
       .snapshotChanges();
   }
 
@@ -227,6 +286,17 @@ export class FireService {
         }
       );
   }
+  getPost(postID) {
+    return this.af
+      .collection('Posts', (ref) => ref.where('postReviewID', '==', postID))
+      .get();
+  }
+
+  getReview(revID) {
+    return this.af
+      .collection('Reviews', (ref) => ref.where('postReviewID', '==', revID))
+      .get();
+  }
 
   deletePost(postID) {
     return this.af
@@ -269,6 +339,23 @@ export class FireService {
       });
   }
 
+  likeReview(postID, likesArray: string[]) {
+    return this.af
+      .collection('Reviews')
+      .doc(postID)
+      .update({
+        likes: [...likesArray, this.myProfile.uid],
+      });
+  }
+
+  remLikeReview(postID, likesArray: string[]) {
+    return this.af
+      .collection('Reviews')
+      .doc(postID)
+      .update({
+        likes: this.arrayRemove(likesArray, this.myProfile.uid),
+      });
+  }
   /* ---- COMMENTS ---- */
   postPostComment(description: string, postReviewID: string) {
     const id = this.af.createId();
@@ -371,5 +458,46 @@ export class FireService {
       position: 'top',
     });
     toast.present();
+  }
+
+  addFriend(friendID) {
+    const arr = [...this.myProfile.friends, friendID];
+    return this.af
+      .collection('Profile')
+      .doc(this.myProfile.uid)
+      .update({ friends: arr })
+      .then(
+        (res) => {
+          this.presentToast('Friend Added!', 800, null, 'medium');
+          this.myProfile.friends = arr;
+        },
+        (err) => this.presentToast('Error Adding', 800, null, 'warning')
+      );
+  }
+
+  removeFriend(friendID) {
+    const arr = this.arrayRemove(this.myProfile.friends, friendID);
+    return this.af
+      .collection('Profile')
+      .doc(this.myProfile.uid)
+      .update({ friends: arr })
+      .then(
+        (res) => {
+          this.presentToast('Unfriended', 800, null, 'medium');
+          this.myProfile.friends = arr;
+        },
+        (err) => this.presentToast('Error', 800, null, 'warning')
+      );
+  }
+
+  getFeed(startDate: Date) {
+    return this.af
+      .collection('Posts', (ref) =>
+        ref
+          .where('uid', 'in', this.myProfile.friends)
+          .where('postedDate', '<', startDate)
+          .orderBy('postedDate', 'desc')
+      )
+      .snapshotChanges();
   }
 }

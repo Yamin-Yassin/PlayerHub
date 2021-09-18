@@ -11,6 +11,8 @@ exports.notifyFriends = functions
 
     console.log('DATA: ', JSON.stringify(data));
 
+    console.log('CONTEXT:', JSON.stringify(context.params));
+
     const uid = data.uid;
 
     // CRIAR PAYLOAD
@@ -20,7 +22,7 @@ exports.notifyFriends = functions
       body: ` ${data.description}`,
     };
     const dataPayload: admin.messaging.DataMessagePayload = {
-      uid,
+      postID: context.params.postID,
     };
     const payload: admin.messaging.MessagingPayload = {
       notification,
@@ -28,26 +30,20 @@ exports.notifyFriends = functions
     };
 
     const db = admin.firestore();
-    const profileRef = db.collection('Profile').doc(uid);
-    const user = await profileRef.get();
+    const profileRef = db.collection('Profile');
+    const friendsRef = profileRef.where('friends', 'array-contains', uid); // vai buscar todos users que me seguem
 
-    const friends = user.get('friends') as string[];
+    try {
+      const friends = await friendsRef.get();
+      const tokens: any[] = [];
 
-    console.log('MY FRIENDS', friends);
-    if (friends.length === 0) {
+      friends.forEach((res) => tokens.push(res.data()['pushToken']));
+
+      console.log('TOKENS', tokens);
+
+      return admin.messaging().sendToDevice(tokens, payload);
+    } catch (e) {
+      console.log('error ', e);
       return;
     }
-    const friendsPushTokensRef = db
-      .collection('Profile')
-      .where('uid', 'in', friends);
-
-    const friendsPushTokens = await friendsPushTokensRef.get();
-
-    const tokens: any[] = [];
-
-    friendsPushTokens.forEach((res) => tokens.push(res.data()['pushToken']));
-
-    console.log('TOKENS', tokens);
-
-    return admin.messaging().sendToDevice(tokens, payload);
   });

@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 
 import { Router } from '@angular/router';
-import { Profile } from '@AppTypes/appTypes';
 import { FireService } from '@fire/fire.service';
 import { FireauthService } from '@fire/fireauth.service';
 import { Platform } from '@ionic/angular';
@@ -54,13 +53,14 @@ export class LoginPage implements OnInit {
       .getAuthState()
       .pipe(take(1))
       .subscribe((res) => {
-        this.isLoading = false;
+        this.isLoading = true;
 
         if (res) {
           this.fire.setUid(res.uid);
-          this.checkToken();
           this.getUser();
-          this.router.navigate(['/tabs/home']);
+          this.checkToken();
+        } else {
+          this.isLoading = false;
         }
       });
 
@@ -84,11 +84,9 @@ export class LoginPage implements OnInit {
 
     this.authService.doLogin(value).then(
       (res) => {
-        this.isLoading = false;
         this.fire.setUid(res.user.uid);
         this.checkToken();
         this.getUser();
-        this.router.navigate(['/tabs/home']);
       },
       (err) => {
         this.isLoading = false;
@@ -120,24 +118,31 @@ export class LoginPage implements OnInit {
   }
 
   getUser() {
-    this.fire.getProfileData(this.fire.getUID()).subscribe((data) => {
-      data.forEach((e) => {
-        this.fire.setMyProfile({
-          username: e.payload.doc.data()['username'],
-          name: e.payload.doc.data()['name'],
-          description: e.payload.doc.data()['description'],
-          avatar: e.payload.doc.data()['avatar'],
-          uid: e.payload.doc.data()['uid'],
-          games: e.payload.doc.data()['games'],
-          posts: e.payload.doc.data()['posts'],
-          reviews: e.payload.doc.data()['reviews'],
-          friends: e.payload.doc.data()['friends'],
-          achievements: e.payload.doc.data()['achievements'],
-          email: e.payload.doc.data()['email'],
-          pushToken: e.payload.doc.data['pushToken'],
+    this.fire
+      .getProfileData(this.fire.getUID())
+      .pipe(take(1))
+      .subscribe((data) => {
+        data.forEach((e) => {
+          this.fire.setMyProfile({
+            username: e.payload.doc.data()['username'],
+            name: e.payload.doc.data()['name'],
+            description: e.payload.doc.data()['description'],
+            avatar: e.payload.doc.data()['avatar'],
+            uid: e.payload.doc.data()['uid'],
+            games: e.payload.doc.data()['games'],
+            posts: e.payload.doc.data()['posts'],
+            reviews: e.payload.doc.data()['reviews'],
+            friends: e.payload.doc.data()['friends'],
+            achievements: e.payload.doc.data()['achievements'],
+            email: e.payload.doc.data()['email'],
+            pushToken: e.payload.doc.data['pushToken'],
+          });
+          setTimeout(() => {
+            this.isLoading = false;
+            this.router.navigate(['/tabs/home']);
+          }, 1000);
         });
       });
-    });
   }
 
   goRegisterPage() {

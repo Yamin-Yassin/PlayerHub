@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FireService } from './fire.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FireauthService {
-  constructor(private af: FireService, public afAuth: AngularFireAuth) {}
+  constructor(public afAuth: AngularFireAuth) {}
 
   doRegister(value: { email: string; password: string }) {
     return this.afAuth.createUserWithEmailAndPassword(

@@ -3,6 +3,8 @@ import { FireService } from '@fire/fire.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Comment, isReview, PostReview } from '@AppTypes/appTypes';
+import { take } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-comment',
@@ -13,11 +15,16 @@ export class CommentPage implements OnInit {
   data: PostReview;
   comments: Comment[] = [];
   description = '';
-  constructor(private location: Location, private fire: FireService) {}
+  constructor(
+    private location: Location,
+    public fire: FireService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.data = history.state.data;
-    if (!isReview(this.data)) {
+    this.getPost();
+
+    if (!isReview(history.state.data)) {
       this.fire
         .getPostComments(this.data['postReviewID'])
         .subscribe((commentsData) => {
@@ -73,6 +80,21 @@ export class CommentPage implements OnInit {
         this.fire.postReviewComment(this.description, this.data.postReviewID);
       }
       this.description = '';
+    }
+  }
+
+  getPost() {
+    if (history.state.data) {
+      this.data = history.state.data;
+    } else {
+      this.fire
+        .getPost(this.activatedRoute.snapshot.paramMap.get('ID'))
+        .pipe(take(1))
+        .subscribe((data) => {
+          data.forEach(
+            (e) => (this.data = JSON.parse(JSON.stringify(e.data())))
+          );
+        });
     }
   }
 }

@@ -15,6 +15,8 @@ export class PostComponent implements OnInit {
   comments = [];
   isLiked = false;
 
+  isSelf = false;
+
   constructor(
     private router: Router,
     private fire: FireService,
@@ -24,6 +26,8 @@ export class PostComponent implements OnInit {
   ngOnInit() {
     this.isLiked = this.data.likes.includes(this.fire.getUID());
     this.getComments();
+
+    this.isSelf = this.fire.myProfile.uid === this.data.uid;
   }
 
   navigateProfile() {
@@ -60,11 +64,43 @@ export class PostComponent implements OnInit {
   }
 
   likePost() {
-    this.fire.likePost(this.data.postReviewID, this.data.likes);
+    if (!isReview(this.data)) {
+      this.fire.likePost(this.data.postReviewID, this.data.likes).then(
+        (res) => {
+          this.isLiked = true;
+          this.data.likes.push(this.fire.getUID());
+        },
+        (rej) => console.log('failed to like', rej.message)
+      );
+    } else {
+      this.fire.likeReview(this.data.postReviewID, this.data.likes).then(
+        (res) => {
+          this.isLiked = true;
+          this.data.likes.push(this.fire.getUID());
+        },
+        (rej) => console.log('failed to like', rej.message)
+      );
+    }
   }
 
   dislike() {
-    this.fire.remLikePost(this.data.postReviewID, this.data.likes);
+    if (!isReview(this.data)) {
+      this.fire.remLikePost(this.data.postReviewID, this.data.likes).then(
+        (res) => {
+          this.isLiked = false;
+          this.data.likes.pop();
+        },
+        (rej) => console.log('failed to dislike', rej.message)
+      );
+    } else {
+      this.fire.remLikeReview(this.data.postReviewID, this.data.likes).then(
+        (res) => {
+          this.isLiked = false;
+          this.data.likes.pop();
+        },
+        (rej) => console.log('failed to dislike', rej.message)
+      );
+    }
   }
 
   getComments() {

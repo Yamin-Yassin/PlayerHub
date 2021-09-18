@@ -10,8 +10,11 @@
     <ion-title *ngIf="loaded">{{user.username}}</ion-title>
     <!-- ADD FRIEND BUTTON  -->
     <ion-buttons slot="end">
-      <ion-button (click)="navigateBack()">
+      <ion-button (click)="add()" *ngIf="!isSelf && !isFriend">
         <ion-icon name="person-add-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="remove()" *ngIf="!isSelf && isFriend">
         <ion-icon name="person-remove-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -19,6 +22,19 @@
 </ion-header>
 
 <ion-content *ngIf="loaded">
+  <ion-refresher
+    slot="fixed"
+    pullFactor="0.5"
+    pullMin="100"
+    pullMax="200"
+    pullingIcon="chevron-down-circle-outline"
+    pullingText="Pull to refresh"
+    refreshingSpinner="circles"
+    (ionRefresh)="doRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="profileDescription">
     <ion-row class="ion-padding-horizontal ion-align-items-center">
       <!----------------------- Profile Photo -------------------->
@@ -91,11 +107,27 @@
     <!-- POST SEGMENT -->
     <div *ngIf="selectedSegment === 'posts'">
       <app-post *ngFor="let post of posts" [data]="post"> </app-post>
+
+      <ion-infinite-scroll
+        threshold="30px"
+        (ionInfinite)="getMorePosts($event)"
+      >
+        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </div>
 
     <!-- REVIEW SEGMENT -->
     <div *ngIf="selectedSegment === 'reviews'">
       <app-post *ngFor="let review of reviews" [data]="review"></app-post>
+
+      <ion-infinite-scroll
+        threshold="30px"
+        (ionInfinite)="getMoreReviews($event)"
+      >
+        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </div>
   </div>
 </ion-content>

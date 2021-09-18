@@ -22,8 +22,11 @@ export class FcmService {
 
   async presentToast(message) {
     const toast = await this.toastController.create({
-      message: JSON.stringify(message),
-      duration: 10000,
+      header: message.title,
+      message: message.body,
+      duration: 2500,
+      color: 'medium',
+      position: 'top',
     });
     toast.present();
   }
@@ -72,6 +75,12 @@ export class FcmService {
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
         console.log('Push action performed: ' + JSON.stringify(notification));
+        this.router.navigate(
+          [`/comment/${notification.notification.data.postID}`],
+          {
+            state: { data: notification.notification.data.postID },
+          }
+        );
       }
     );
   }

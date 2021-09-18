@@ -6,12 +6,23 @@
 
     <ion-title>Home</ion-title>
   </ion-toolbar>
+  <div>
+    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+  </div>
 </ion-header>
 
 <ion-content>
-  <!--
+  <ion-refresher
+    slot="fixed"
+    pullFactor="0.5"
+    pullMin="100"
+    pullMax="200"
+    (ionRefresh)="doRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-<app-card-transition></app-card-transition>
- -->
-  <app-post *ngFor="let rev of content" [data]="rev"></app-post>
+  <div *ngIf="loaded">
+    <app-post *ngFor="let rev of content" [data]="rev"></app-post>
+  </div>
 </ion-content>

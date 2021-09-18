@@ -6,9 +6,15 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab vertical="top" horizontal="end">
-    <ion-fab-button size="small" translucent>
+  <ion-fab vertical="top" horizontal="end" *ngIf="!isAdded">
+    <ion-fab-button size="small" translucent (click)="addGame()">
       <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="top" horizontal="end" *ngIf="isAdded">
+    <ion-fab-button size="small" translucent (click)="removeGame()">
+      <ion-icon name="remove"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
@@ -50,13 +56,18 @@
         <div class="section">Reviews</div>
         <hr />
       </div>
-      <div *ngFor="let rev of reviews">
-        <app-post [data]="rev"></app-post>
-      </div>
+      <div>
+        <app-post *ngFor="let rev of reviews" [data]="rev"></app-post>
 
-      <ion-infinite-scroll>
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+        <ion-infinite-scroll
+          threshold="30px"
+          (ionInfinite)="getMoreReviews($event)"
+        >
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+          ></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
     </div>
   </div>
 </ion-content>
@@ -64,7 +75,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-avatar slot="start">
-      <img src="../../../assets/img/sofia.png" alt="" />
+      <img src="{{fire.myProfile.avatar}}" alt="" />
     </ion-avatar>
 
     <ion-textarea
