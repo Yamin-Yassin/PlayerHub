@@ -7,7 +7,7 @@
   <ion-title>Comments</ion-title>
 </ion-toolbar>
 
-<ion-content>
+<ion-content *ngIf="loading">
   <app-post [data]="data"></app-post>
   <app-reply *ngFor="let comment of comments" [data]="comment"></app-reply>
 </ion-content>

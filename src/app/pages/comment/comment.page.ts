@@ -15,6 +15,8 @@ export class CommentPage implements OnInit {
   data: PostReview;
   comments: Comment[] = [];
   description = '';
+  loading = false;
+
   constructor(
     private location: Location,
     public fire: FireService,
@@ -23,46 +25,6 @@ export class CommentPage implements OnInit {
 
   ngOnInit() {
     this.getPost();
-
-    if (!isReview(history.state.data)) {
-      this.fire
-        .getPostComments(this.data['postReviewID'])
-        .subscribe((commentsData) => {
-          this.comments = [];
-
-          commentsData.forEach((e) => {
-            const comment: Comment = {
-              avatar: e.payload.doc.data()['avatar'],
-              commentID: e.payload.doc.data()['commentID'],
-              postedDate: e.payload.doc.data()['postedDate'],
-              description: e.payload.doc.data()['description'],
-              postReviewID: e.payload.doc.data()['postReviewID'],
-              uid: e.payload.doc.data()['uid'],
-              username: e.payload.doc.data()['username'],
-            };
-            this.comments.push(comment);
-          });
-        });
-    } else {
-      this.fire
-        .getReviewComments(this.data['postReviewID'])
-        .subscribe((commentsData) => {
-          this.comments = [];
-
-          commentsData.forEach((e) => {
-            const comment: Comment = {
-              avatar: e.payload.doc.data()['avatar'],
-              commentID: e.payload.doc.data()['commentID'],
-              postedDate: e.payload.doc.data()['postedDate'],
-              description: e.payload.doc.data()['description'],
-              postReviewID: e.payload.doc.data()['postReviewID'],
-              uid: e.payload.doc.data()['uid'],
-              username: e.payload.doc.data()['username'],
-            };
-            this.comments.push(comment);
-          });
-        });
-    }
   }
 
   goBack() {
@@ -86,15 +48,99 @@ export class CommentPage implements OnInit {
   getPost() {
     if (history.state.data) {
       this.data = history.state.data;
+      if (!isReview(this.data)) {
+        this.fire
+          .getPostComments(this.data['postReviewID'])
+          .subscribe((commentsData) => {
+            this.comments = [];
+
+            commentsData.forEach((e) => {
+              const comment: Comment = {
+                avatar: e.payload.doc.data()['avatar'],
+                commentID: e.payload.doc.data()['commentID'],
+                postedDate: e.payload.doc.data()['postedDate'],
+                description: e.payload.doc.data()['description'],
+                postReviewID: e.payload.doc.data()['postReviewID'],
+                uid: e.payload.doc.data()['uid'],
+                username: e.payload.doc.data()['username'],
+              };
+              this.comments.push(comment);
+            });
+          });
+      } else {
+        this.fire
+          .getReviewComments(this.data['postReviewID'])
+          .subscribe((commentsData) => {
+            this.comments = [];
+
+            commentsData.forEach((e) => {
+              const comment: Comment = {
+                avatar: e.payload.doc.data()['avatar'],
+                commentID: e.payload.doc.data()['commentID'],
+                postedDate: e.payload.doc.data()['postedDate'],
+                description: e.payload.doc.data()['description'],
+                postReviewID: e.payload.doc.data()['postReviewID'],
+                uid: e.payload.doc.data()['uid'],
+                username: e.payload.doc.data()['username'],
+              };
+              this.comments.push(comment);
+            });
+          });
+      }
+      this.loading = true;
     } else {
       this.fire
         .getPost(this.activatedRoute.snapshot.paramMap.get('ID'))
         .pipe(take(1))
-        .subscribe((data) => {
-          data.forEach(
-            (e) => (this.data = JSON.parse(JSON.stringify(e.data())))
-          );
-        });
+        .subscribe(
+          (data) => {
+            data.forEach(
+              (e) => (this.data = JSON.parse(JSON.stringify(e.data())))
+            );
+
+            if (!isReview(this.data)) {
+              this.fire
+                .getPostComments(this.data['postReviewID'])
+                .subscribe((commentsData) => {
+                  this.comments = [];
+
+                  commentsData.forEach((e) => {
+                    const comment: Comment = {
+                      avatar: e.payload.doc.data()['avatar'],
+                      commentID: e.payload.doc.data()['commentID'],
+                      postedDate: e.payload.doc.data()['postedDate'],
+                      description: e.payload.doc.data()['description'],
+                      postReviewID: e.payload.doc.data()['postReviewID'],
+                      uid: e.payload.doc.data()['uid'],
+                      username: e.payload.doc.data()['username'],
+                    };
+                    this.comments.push(comment);
+                  });
+                });
+            } else {
+              this.fire
+                .getReviewComments(this.data['postReviewID'])
+                .subscribe((commentsData) => {
+                  this.comments = [];
+
+                  commentsData.forEach((e) => {
+                    const comment: Comment = {
+                      avatar: e.payload.doc.data()['avatar'],
+                      commentID: e.payload.doc.data()['commentID'],
+                      postedDate: e.payload.doc.data()['postedDate'],
+                      description: e.payload.doc.data()['description'],
+                      postReviewID: e.payload.doc.data()['postReviewID'],
+                      uid: e.payload.doc.data()['uid'],
+                      username: e.payload.doc.data()['username'],
+                    };
+                    this.comments.push(comment);
+                  });
+                });
+            }
+            this.loading = true;
+          },
+          (error) => (this.loading = false)
+        );
     }
   }
 }

@@ -75,12 +75,9 @@ export class FcmService {
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
         console.log('Push action performed: ' + JSON.stringify(notification));
-        this.router.navigate(
-          [`/comment/${notification.notification.data.postID}`],
-          {
-            state: { data: notification.notification.data.postID },
-          }
-        );
+        this.router.navigate([
+          `/comment/${notification.notification.data.postID}`,
+        ]);
       }
     );
   }

@@ -24,9 +24,8 @@ export class PostComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLiked = this.data.likes.includes(this.fire.getUID());
     this.getComments();
-
+    this.isLiked = this.data.likes.includes(this.fire.myProfile.uid);
     this.isSelf = this.fire.myProfile.uid === this.data.uid;
   }
 
