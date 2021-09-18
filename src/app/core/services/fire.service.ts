@@ -500,4 +500,27 @@ export class FireService {
       )
       .snapshotChanges();
   }
+
+  getExploreReviews(startDate: Date) {
+    return this.af
+      .collection('Reviews', (ref) =>
+        ref
+          .where('uid', 'in', this.myProfile.friends)
+          .where('postedDate', '<', startDate)
+          .orderBy('postedDate', 'desc')
+          .limit(3)
+      )
+      .snapshotChanges();
+  }
+
+  getExploreGames(startDate: Date) {
+    return this.af
+      .collection('Games', (ref) =>
+        ref
+          .where('release-date', '<', startDate)
+          .orderBy('release-date', 'desc')
+          .limit(3)
+      )
+      .snapshotChanges();
+  }
 }

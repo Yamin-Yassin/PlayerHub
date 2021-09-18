@@ -32,7 +32,7 @@ export interface Game {
   images: any;
   name: string;
   platforms: string[] | null;
-  'release-date': string | null;
+  'release-date': Date | null | any;
   studio: string;
   score?: number | null;
   reviews?: string[] | null;

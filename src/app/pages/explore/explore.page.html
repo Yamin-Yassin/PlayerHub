@@ -6,31 +6,32 @@
       button
     ></ion-input>
   </ion-toolbar>
+  <div>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </div>
 </ion-header>
 
 <ion-content>
   <ion-list class="new-arrivals">
     <ion-list-header> <h1>New Arrivals</h1> </ion-list-header>
 
-    <ion-slides [options]="slideOpts">
-      <ion-slide *ngFor="let card of [0,1,2,3]">
-        <div class="container">
-          <div class="container-image">
-            <img
-              src="{{'../../../assets/img/sofia.png'}}"
-              alt=""
-              class="image"
-            />
-          </div>
-          <div class="name">
-            <h5>Zelda: Breath of the Wild</h5>
-          </div>
-        </div>
+    <ion-slides [options]="slideOpts" (ionSlideReachEnd)="getMoreGames()">
+      <ion-slide *ngFor="let game of games"
+        ><app-game-player [data]="game"></app-game-player>
       </ion-slide>
     </ion-slides>
   </ion-list>
+
   <ion-list>
     <ion-list-header> <h1>Reviews</h1> </ion-list-header>
-    <app-review-explore *ngFor="let card of [0,1,2,3]"></app-review-explore>
+    <app-post *ngFor="let rev of reviews" [data]="rev"></app-post>
+
+    <ion-infinite-scroll
+      threshold="30px"
+      (ionInfinite)="getMoreReviews($event)"
+    >
+      <ion-infinite-scroll-content loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </ion-list>
 </ion-content>
