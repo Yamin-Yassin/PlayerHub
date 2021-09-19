@@ -47,3 +47,33 @@ exports.notifyFriends = functions
       return;
     }
   });
+
+exports.aggregateScore = functions
+  .region('europe-west1')
+  .firestore.document('Games/{gameID}')
+  .onUpdate(async (snapshot, context) => {
+    console.log('SNAPSHOT: ', JSON.stringify(snapshot.after.data()));
+    console.log('CONTEXT: ', JSON.stringify(context.params));
+
+    const gameID = context.params.gameID;
+    const numReviews: string[] = snapshot.after.data().reviews;
+    const db = admin.firestore();
+
+    const gameRef = db.collection('Games').doc(gameID);
+
+    const reviews = await db
+      .collection('Reviews')
+      .where('game-id', '==', gameID)
+      .get();
+
+    let score = 0;
+
+    reviews.forEach((res) => (score += res.data().score));
+
+    db.runTransaction(async (transaction) => {
+      score = score / numReviews.length;
+      transaction.update(gameRef, {
+        score,
+      });
+    });
+  });

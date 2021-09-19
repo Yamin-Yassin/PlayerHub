@@ -39,6 +39,7 @@ export class ProfilePage implements OnInit {
             platforms: e.data()['platforms'],
             'release-date': e.data()['release-date'],
             studio: e.data()['studio'],
+            score: e.data()['score'],
           };
           this.games.push(game);
         });
@@ -67,6 +68,7 @@ export class ProfilePage implements OnInit {
                 platforms: e.data()['platforms'],
                 'release-date': e.data()['release-date'],
                 studio: e.data()['studio'],
+                score: e.data()['score'],
               };
               this.games.push(game);
             });

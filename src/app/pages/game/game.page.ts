@@ -39,7 +39,7 @@ export class GamePage implements OnInit {
           'id-game': e.payload.doc.id,
           name: e.payload.doc.data()['name'],
           studio: e.payload.doc.data()['studio'],
-          score: 8.3,
+          score: e.payload.doc.data()['score'],
           'release-date': date,
           platforms: e.payload.doc.data()['platforms'],
           genre: e.payload.doc.data()['genre'],

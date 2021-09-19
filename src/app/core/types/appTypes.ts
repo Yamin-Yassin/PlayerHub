@@ -34,7 +34,7 @@ export interface Game {
   platforms: string[] | null;
   'release-date': Date | null | any;
   studio: string;
-  score?: number | null;
+  score: number | null;
   reviews?: string[] | null;
 }
 
