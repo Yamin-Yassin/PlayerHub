@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title *ngIf="loaded">{{fire.myProfile.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon name="settings-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

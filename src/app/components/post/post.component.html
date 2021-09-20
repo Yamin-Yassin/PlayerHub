@@ -1,4 +1,11 @@
 <ion-card class="post">
+  <ion-item *ngIf="gameData && !isGamePage">
+    <div class="header-container">
+      <img class="banner" src="{{ gameData.images[0] }}" alt="" />
+      <h2 class="centered">{{ gameData.name }}</h2>
+    </div>
+  </ion-item>
+
   <!-- PROFILE INFO -->
   <ion-item lines="none">
     <ion-avatar slot="start" button (click)="navigateProfile()">
@@ -22,7 +29,12 @@
   </ion-item>
 
   <!-- IMAGE  -->
-  <img *ngIf="data.photo != null" src="{{ data.photo }}" alt="" />
+  <img
+    *ngIf="data.photo != null"
+    src="{{ data.photo }}"
+    alt=""
+    (click)="navigateComment()"
+  />
 
   <!-- DESCRIPTION -->
   <ion-card-content button (click)="navigateComment()">
@@ -35,7 +47,7 @@
       <ion-label>{{ data.date.replace(";", "") }}</ion-label>
     </ion-text>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button (click)="navigateComment()">
         <!-- inserir uma acao no click aqui -->
         <ion-label class="ion-text-wrap">{{ comments.length }}</ion-label>
         <ion-icon name="chatbubble-outline"></ion-icon>

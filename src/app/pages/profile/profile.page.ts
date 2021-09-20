@@ -3,6 +3,8 @@ import { FireService } from '@fire/fire.service';
 import { Component, OnInit } from '@angular/core';
 import { Game, Post, Review } from '@AppTypes/appTypes';
 import { take } from 'rxjs/operators';
+import { PopoverController } from '@ionic/angular';
+import { SettingsPopoverComponent } from '@components/settings-popover/settings-popover.component';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +20,7 @@ export class ProfilePage implements OnInit {
   ngames = 0;
   nfriends = 0;
 
-  constructor(public fire: FireService) {}
+  constructor(public fire: FireService, private popover: PopoverController) {}
 
   ngOnInit() {
     this.selectedSegment = 'games';
@@ -216,5 +218,17 @@ export class ProfilePage implements OnInit {
         this.nfriends = this.fire.myProfile.friends.length;
         ev.target.complete();
       });
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popover.create({
+      component: SettingsPopoverComponent,
+      event: ev,
+      translucent: true,
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 }

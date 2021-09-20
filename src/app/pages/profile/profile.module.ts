@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { PostComponentModule } from '@components/post/post.component.module';
 import { GamePlayerComponentModule } from '@components/game-player/game-player.component.module';
+import { SettingsPopoverComponent } from '@components/settings-popover/settings-popover.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { GamePlayerComponentModule } from '@components/game-player/game-player.c
     PostComponentModule,
     GamePlayerComponentModule,
   ],
-  declarations: [ProfilePage],
+  declarations: [ProfilePage, SettingsPopoverComponent],
 })
 export class ProfilePageModule {}

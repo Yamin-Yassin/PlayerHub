@@ -2,7 +2,7 @@
 import { FireService } from '@fire/fire.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PostReview, isReview, Comment, monthNames } from '@AppTypes/appTypes';
+import { PostReview, isReview, Comment, Game } from '@AppTypes/appTypes';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -13,10 +13,11 @@ import { AlertController } from '@ionic/angular';
 export class PostComponent implements OnInit {
   @Input() data: PostReview;
   comments = [];
+
+  gameData: Game;
+  isGamePage = false;
   isLiked = false;
-
   isSelf = false;
-
   constructor(
     private router: Router,
     private fire: FireService,
@@ -27,6 +28,7 @@ export class PostComponent implements OnInit {
     this.getComments();
     this.isLiked = this.data.likes.includes(this.fire.myProfile.uid);
     this.isSelf = this.fire.myProfile.uid === this.data.uid;
+    this.isGamePage = this.router.url.split('/')[1] === 'game-page';
   }
 
   navigateProfile() {
@@ -141,6 +143,12 @@ export class PostComponent implements OnInit {
             this.comments.push(comment);
           });
         });
+      this.fire.getGamePage(this.data['game-id']).subscribe((data) => {
+        data.forEach((e) => {
+          this.gameData = JSON.parse(JSON.stringify(e.payload.doc.data()));
+          console.log('game = ', this.gameData.name);
+        });
+      });
     }
   }
 }

@@ -55,20 +55,6 @@ export class HomePage implements OnInit {
     }
   }
 
-  logout() {
-    this.isLoading = true;
-    this.authService.doLogout().then(
-      (res) => {
-        this.isLoading = false;
-        this.router.navigate(['/login']);
-      },
-      (err) => {
-        this.isLoading = false;
-        console.log('erro');
-      }
-    );
-  }
-
   doRefresh(ev: any) {
     if (this.fire.myProfile.friends.length === 0) {
       setTimeout(() => {
